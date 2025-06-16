@@ -19,7 +19,7 @@ Dit project maakt van een Raspberry Pi een zelfstandig Wi-Fi access point met ca
 
 ### 1. Clone deze repository op je Raspberry Pi
 
-git clone https://github.com/<jouw-gebruikersnaam>/dmx-licht.git
+git clone https://github.com/thomas-svrts/dmx-licht.git
 cd dmx-licht
 
 ### 2. Maak het installatiescript uitvoerbaar

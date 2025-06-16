@@ -31,7 +31,6 @@ tar zxvf hostapd-2.4.tar.gz
 echo "🧩 Applying patch..."
 cd hostapd-2.4
 patch -p1 -i ../rtlxdrv.patch
-cp ../driver_* src/drivers/
 cd hostapd
 cp defconfig .config
 echo CONFIG_DRIVER_RTW=y >> .config

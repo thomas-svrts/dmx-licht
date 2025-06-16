@@ -29,6 +29,20 @@ sudo cp lnxrouter /usr/local/bin/
 
 echo "✅ Done. Use ./start-ap.sh to start your access point."
 
+echo "🌐 Configureren van dnsmasq voor captive portal..."
+
+
+# Zorg dat basisconfig leeg/veilig is
+sudo rm -f /etc/dnsmasq.conf
+echo "interface=wlan0" | sudo tee /etc/dnsmasq.conf > /dev/null
+echo "dhcp-range=10.10.0.10,10.10.0.50,12h" | sudo tee -a /etc/dnsmasq.conf > /dev/null
+echo "address=/#/10.10.0.1" | sudo tee -a /etc/dnsmasq.conf > /dev/null
+
+# Herstart dnsmasq als het al draait
+sudo systemctl restart dnsmasq
+echo "✅ dnsmasq is ingesteld voor captive gedrag."
+
+
 
 echo "📁 Deploying captive portal files to /var/www/html..."
 sudo mkdir -p /var/www/html

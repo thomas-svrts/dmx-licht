@@ -1,4 +1,7 @@
 #!/bin/bash
+sudo apt purge -y dnsmasq dhcpcd5 hostapd
+
+
 
 echo "📦 Installing required packages..."
 sudo apt update

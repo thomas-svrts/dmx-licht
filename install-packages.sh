@@ -2,7 +2,10 @@
 
 echo "📦 Installing required packages..."
 sudo apt update
-sudo apt install -y git hostapd iptables haveged
+sudo apt install -y git hostapd iptables haveged lighttpd
+
+sudo systemctl enable lighttpd
+
 
 echo "📁 Cloning linux-router repo..."
 curl -o lnxrouter https://raw.githubusercontent.com/garywill/linux-router/master/lnxrouter

@@ -28,3 +28,11 @@ echo "⚙️ Making lnxrouter globally available..."
 sudo cp lnxrouter /usr/local/bin/
 
 echo "✅ Done. Use ./start-ap.sh to start your access point."
+
+
+echo "📁 Deploying captive portal files to /var/www/html..."
+sudo mkdir -p /var/www/html
+sudo cp -r ./captive/* /var/www/html/
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R 755 /var/www/html
+echo "✅ Captive portal geïnstalleerd."

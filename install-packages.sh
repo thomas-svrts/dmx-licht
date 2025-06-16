@@ -1,15 +1,14 @@
-rk#!/bin/bash
+#!/bin/bash
 
 echo "📦 Installing required packages..."
 sudo apt update
 sudo apt install -y dnsmasq dhcpcd5 raspberrypi-kernel-headers build-essential libnl-3-dev libnl-genl-3-dev pkg-config git curl wget
 
-
 echo "🔧 Disabling NetworkManager..."
 sudo systemctl stop NetworkManager
 sudo systemctl disable NetworkManager
 
-echo "🛑 Stopping services before config..."
+echo "🛑 Stopping potential conflicts..."
 sudo systemctl stop hostapd || true
 sudo systemctl stop dnsmasq || true
 sudo systemctl stop dhcpcd || true
@@ -20,27 +19,42 @@ sudo cp setup/dnsmasq.conf /etc/dnsmasq.conf
 sudo cp setup/hostapd.conf /etc/hostapd/hostapd.conf
 sudo cp setup/hostapd-default /etc/default/hostapd
 
-echo "⚙️ remove old patched hostapd..."
-sudo apt purge -y hostapd
+echo "🧱 Downloading patched hostapd (pritambaral fork)..."
+cd /tmp
+git clone https://github.com/pritambaral/hostapd-rtl871xdrv.git
+cd hostapd-rtl871xdrv
 
-echo "🧱 Cloning and building patched hostapd..."
-git clone --depth 1 https://github.com/oblique/create_ap.git
-cd create_ap/hostapd || exit 1
+echo "⬇️ Downloading base hostapd source..."
+wget http://w1.fi/releases/hostapd-2.4.tar.gz
+tar zxvf hostapd-2.4.tar.gz
+
+echo "🧩 Applying patch..."
+cd hostapd-2.4
+patch -p1 -i ../rtlxdrv.patch
+cp ../driver_* src/drivers/
+cd hostapd
+cp defconfig .config
+echo CONFIG_DRIVER_RTW=y >> .config
+echo CONFIG_LIBNL32=y >> .config
+
+echo "🛠️ Building hostapd..."
 make
-cd ../../
-sudo cp create_ap/hostapd/hostapd /usr/sbin/hostapd
+
+echo "✅ Installing hostapd binary..."
+sudo cp hostapd /usr/sbin/hostapd
 sudo chmod +x /usr/sbin/hostapd
-rm -rf create_ap
 
-echo "🔁 Enabling services..."
+echo "🧹 Cleaning up..."
+cd ~
+rm -rf /tmp/hostapd-rtl871xdrv
+
+echo "🔁 Enabling and starting services..."
 sudo systemctl unmask hostapd
-sudo systemctl enable hostapd
-sudo systemctl enable dnsmasq
 sudo systemctl enable dhcpcd
-
-echo "🚀 Starting services..."
+sudo systemctl enable dnsmasq
+sudo systemctl enable hostapd
 sudo systemctl start dhcpcd
 sudo systemctl start dnsmasq
 sudo systemctl start hostapd
 
-echo "✅ Setup complete. You can now reboot."
+echo "🚀 Reboot to finish setup!"

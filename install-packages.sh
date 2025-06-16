@@ -2,13 +2,13 @@
 
 echo "📦 Installing required packages..."
 sudo apt update
-sudo apt install -y git dnsmasq iptables
+sudo apt install -y git hostapd iptables haveged
 
 echo "📁 Cloning linux-router repo..."
-git clone https://github.com/garywill/linux-router.git ~/linux-router
+curl -o lnxrouter https://raw.githubusercontent.com/garywill/linux-router/master/lnxrouter
+chmod +x lnxrouter
 
 echo "⚙️ Making lnxrouter globally available..."
-sudo cp ~/linux-router/lnxrouter /usr/local/bin/
-sudo chmod +x /usr/local/bin/lnxrouter
+sudo cp lnxrouter /usr/local/bin/
 
 echo "✅ Done. Use ./start-ap.sh to start your access point."

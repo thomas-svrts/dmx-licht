@@ -22,10 +22,9 @@ sudo cp setup/hostapd-default /etc/default/hostapd
 
 echo "⚙️ Installing patched hostapd..."
 sudo apt purge -y hostapd
-wget -O hostapd https://github.com/oblique/create_ap/releases/download/v0.4.6/hostapd
+wget https://raspberrypi.mgdm.net/hostapd/hostapd
 sudo mv hostapd /usr/sbin/hostapd
 sudo chmod +x /usr/sbin/hostapd
-
 
 echo "🔁 Enabling services..."
 sudo systemctl unmask hostapd

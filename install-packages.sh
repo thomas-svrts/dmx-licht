@@ -2,7 +2,8 @@ rk#!/bin/bash
 
 echo "📦 Installing required packages..."
 sudo apt update
-sudo apt install -y hostapd dnsmasq dhcpcd5
+sudo apt install -y dnsmasq dhcpcd5 raspberrypi-kernel-headers wget curl
+
 
 echo "🔧 Disabling NetworkManager..."
 sudo systemctl stop NetworkManager
@@ -18,6 +19,13 @@ sudo cp setup/dhcpcd.conf /etc/dhcpcd.conf
 sudo cp setup/dnsmasq.conf /etc/dnsmasq.conf
 sudo cp setup/hostapd.conf /etc/hostapd/hostapd.conf
 sudo cp setup/hostapd-default /etc/default/hostapd
+
+echo "⚙️ Installing patched hostapd..."
+sudo apt purge -y hostapd
+wget -O hostapd https://github.com/oblique/create_ap/releases/download/v0.4.6/hostapd
+sudo mv hostapd /usr/sbin/hostapd
+sudo chmod +x /usr/sbin/hostapd
+
 
 echo "🔁 Enabling services..."
 sudo systemctl unmask hostapd

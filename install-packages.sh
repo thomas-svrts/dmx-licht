@@ -1,4 +1,4 @@
-#!/bin/bash
+rk#!/bin/bash
 
 echo "📦 Installing required packages..."
 sudo apt update
@@ -14,10 +14,10 @@ sudo systemctl stop dnsmasq
 sudo systemctl stop dhcpcd || true
 
 echo "📁 Copying config files..."
-sudo cp Setup/dhcpcd.conf /etc/dhcpcd.conf
-sudo cp Setup/dnsmasq.conf /etc/dnsmasq.conf
-sudo cp Setup/hostapd.conf /etc/hostapd/hostapd.conf
-sudo cp Setup/hostapd-default /etc/default/hostapd
+sudo cp setup/dhcpcd.conf /etc/dhcpcd.conf
+sudo cp setup/dnsmasq.conf /etc/dnsmasq.conf
+sudo cp setup/hostapd.conf /etc/hostapd/hostapd.conf
+sudo cp setup/hostapd-default /etc/default/hostapd
 
 echo "🔁 Enabling services..."
 sudo systemctl unmask hostapd

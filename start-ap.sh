@@ -11,4 +11,4 @@ sudo lnxrouter \
   --isolate-clients \
   --country BE	\
   --hostname chiro-ap \
-  -tp 80
+  --tp 80

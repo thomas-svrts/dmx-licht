@@ -16,7 +16,7 @@ sudo lnxrouter \
 
 
 # Wacht kort om interfaces te laten opstarten
-sleep 2
+sleep 5
 
 # Alleen redirectregels voor captive portal
 # sudo iptables -t nat -F

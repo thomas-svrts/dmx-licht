@@ -11,8 +11,7 @@ sudo lnxrouter \
   --isolate-clients \
   --country BE	\
   --hostname chiro-ap \
-  --daemon
-
+  > lnxrouter.log 2>&1 &
 
 
 # Wacht kort om interfaces te laten opstarten

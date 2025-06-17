@@ -50,3 +50,28 @@ sudo cp -r ./captive/* /var/www/html/
 sudo chown -R www-data:www-data /var/www/html
 sudo chmod -R 755 /var/www/html
 echo "✅ Captive portal geïnstalleerd."
+
+
+echo "⚙️ Configureren van lighttpd voor catch-all redirect naar index.html..."
+
+# Zorg dat mod_rewrite actief is
+if ! grep -q mod_rewrite /etc/lighttpd/lighttpd.conf; then
+  echo 'server.modules += ( "mod_rewrite" )' | sudo tee -a /etc/lighttpd/lighttpd.conf
+fi
+
+# Verwijder oude rewrite-regels indien nodig
+sudo sed -i '/url.rewrite-if-not-file/d' /etc/lighttpd/lighttpd.conf
+
+# Voeg nieuwe regels toe met uitzondering voor script.js
+sudo tee -a /etc/lighttpd/lighttpd.conf > /dev/null <<EOF
+url.rewrite-if-not-file = (
+  "^/script.js$" => "/script.js",
+  ".*" => "/index.html"
+)
+EOF
+
+
+echo "🔄 Herstarten van lighttpd..."
+sudo systemctl restart lighttpd
+
+echo "✅ lighttpd is ingesteld met rewrite en captive trigger-bestanden."

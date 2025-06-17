@@ -62,13 +62,12 @@ fi
 # Verwijder oude rewrite-regels indien nodig
 sudo sed -i '/url.rewrite-if-not-file/d' /etc/lighttpd/lighttpd.conf
 
-# Voeg nieuwe regels toe met uitzondering voor script.js
-sudo tee -a /etc/lighttpd/lighttpd.conf > /dev/null <<EOF
-url.rewrite-if-not-file = (
-  "^/script.js$" => "/script.js",
-  ".*" => "/index.html"
-)
-EOF
+# Voeg rewrite-regel toe om alle onbekende paden naar /index.html te sturen
+# (behalve bestaande bestanden)
+REWRITE_RULE='url.rewrite-if-not-file = ( ".*" => "/index.html" )'
+if ! grep -q "url.rewrite-if-not-file" /etc/lighttpd/lighttpd.conf; then
+  echo "$REWRITE_RULE" | sudo tee -a /etc/lighttpd/lighttpd.conf
+fi
 
 
 echo "🔄 Herstarten van lighttpd..."

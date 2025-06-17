@@ -9,7 +9,6 @@ sudo lnxrouter \
   -n \
   --catch-dns \
   --dns-nocache \
-  --dns 127.0.0.1:80 \
   --isolate-clients \
   --hostname chiro-ap \
   --tp 80

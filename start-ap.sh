@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Starting access point on wlan0, sharing internet from eth0..."
+echo "🚀 Starting access point on wlan0, catching all dns..."
 
 # Start lnxrouter (zonder --share als je internet niet wil delen)
 sudo lnxrouter \

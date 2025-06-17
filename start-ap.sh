@@ -19,6 +19,6 @@ sudo lnxrouter \
 
 
 #remove rule
-iptables -i wlan0 -t nat -D PREROUTING -p tcp --dport 80 -j DNAT --to-destination "192.168.$IPNUM.1:$CAPTIVE_PORT"
+iptables -i wlan0 -t nat -D PREROUTING -p tcp --dport 80 -j DNAT --to-destination "10.10.0.1:80"
 
 echo "+++++ Captive portal gestopt "

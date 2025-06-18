@@ -49,22 +49,38 @@ sudo chmod -R 755 /var/www/html
 echo "✅ Captive portal geïnstalleerd."
 
 
-echo "⚙️ Configureren van lighttpd voor catch-all redirect naar index.html..."
 
-# Zorg dat mod_rewrite actief is
-if ! grep -q mod_rewrite /etc/lighttpd/lighttpd.conf; then
+
+
+echo "⚙️ Configureren van lighttpd voor frontend-rewrites en backend API proxy..."
+
+# Zorg dat mod_rewrite en proxy modules in de config staan
+if ! grep -q 'mod_rewrite' /etc/lighttpd/lighttpd.conf; then
   echo 'server.modules += ( "mod_rewrite" )' | sudo tee -a /etc/lighttpd/lighttpd.conf
 fi
-
-# Verwijder oude rewrite-regels indien nodig
-sudo sed -i '/url.rewrite-if-not-file/d' /etc/lighttpd/lighttpd.conf
-
-# Voeg rewrite-regel toe om alle onbekende paden naar /index.html te sturen
-# (behalve bestaande bestanden)
-REWRITE_RULE='url.rewrite-if-not-file = ( ".*" => "/index.html" )'
-if ! grep -q "url.rewrite-if-not-file" /etc/lighttpd/lighttpd.conf; then
-  echo "$REWRITE_RULE" | sudo tee -a /etc/lighttpd/lighttpd.conf
+if ! grep -q 'mod_proxy' /etc/lighttpd/lighttpd.conf; then
+  echo 'server.modules += ( "mod_proxy", "mod_proxy_http" )' | sudo tee -a /etc/lighttpd/lighttpd.conf
 fi
+
+# Oude regels verwijderen
+sudo sed -i '/url.rewrite\s*=/,/)/d' /etc/lighttpd/lighttpd.conf
+sudo sed -i '/\$HTTP\["url"\] =~ "\^\/api\/"/,/}/d' /etc/lighttpd/lighttpd.conf
+
+# Nieuwe rewrite + proxy toevoegen
+sudo tee -a /etc/lighttpd/lighttpd.conf > /dev/null <<EOF
+url.rewrite = (
+  "^/script.js$" => "\$0",
+  "^/api/.*$" => "\$0",
+  ".*" => "/index.html"
+)
+
+\$HTTP["url"] =~ "^/api/" {
+  proxy.server  = ( "" => ( "flask" => ( "host" => "127.0.0.1", "port" => 5000 ) ) )
+}
+EOF
+
+
+
 
 
 echo "🧾 Flask systemd-service installeren..."

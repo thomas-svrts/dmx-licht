@@ -30,21 +30,61 @@ def set_dmx_batch():
     try:
         data = request.get_json(force=True)
     except Exception as e:
-        return jsonify({"error": "Invalid JSON"}), 400
+        return jsonify([{
+            "error": "Invalid JSON",
+            "detail": str(e),
+            "debug": "request.get_json(force=True) failed"
+        }]), 400
 
     if not isinstance(data, list):
-        return jsonify({"error": "Expected a list of channel/value pairs"}), 400
+        return jsonify([{
+            "error": "Expected a list of channel/value pairs",
+            "received_type": str(type(data)),
+            "debug": "Payload was not a list"
+        }]), 400
 
     responses = []
     for entry in data:
+        debug_info = {"entry": entry}
+
+        # Controleren op aanwezigheid
+        if 'channel' not in entry or 'value' not in entry:
+            responses.append({
+                **debug_info,
+                "error": "Missing channel or value",
+                "debug": "channel or value key missing"
+            })
+            continue
+
         try:
-            channel = int(entry.get('channel'))
-            value = int(entry.get('value'))
-            print(f"Simulatie: kanaal {channel}, waarde {value}")
-            # subprocess.run(["/usr/local/bin/dmx-set", str(channel), str(value)], check=True)
-            responses.append({"channel": channel, "value": value, "status": "ok"})
+            channel = int(entry['channel'])
+            value = int(entry['value'])
+            debug_info.update({"parsed_channel": channel, "parsed_value": value})
         except Exception as e:
-            responses.append({"error": str(e), "entry": entry})
+            responses.append({
+                **debug_info,
+                "error": "Channel or value not an integer",
+                "detail": str(e),
+                "debug": "Conversion to int failed"
+            })
+            continue
+
+        try:
+            subprocess.run(
+                ["/usr/local/bin/dmx-set", str(channel), str(value)],
+                check=True
+            )
+            responses.append({
+                **debug_info,
+                "status": "ok"
+            })
+        except Exception as e:
+            responses.append({
+                **debug_info,
+                "error": "Execution failed",
+                "detail": str(e),
+                "debug": "dmx-set script failed"
+            })
 
     return jsonify(responses)
 

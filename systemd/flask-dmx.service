@@ -1,0 +1,12 @@
+[Unit]
+Description=Flask DMX Backend
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/dmx-control/app.py
+WorkingDirectory=/home/pi/dmx-control
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

@@ -6,9 +6,9 @@ def send_artnet_packet(channel_values):
     prot_ver = (14).to_bytes(2, 'big')
     seq = b'\x00'
     phys = b'\x00'
-    universe = (0).to_bytes(2, 'little')  # Universe 0
+    universe = (0).to_bytes(2, 'little')
     length = len(channel_values).to_bytes(2, 'big')
-    
+
     packet = (
         ARTNET_HEADER +
         OP_OUTPUT +
@@ -20,10 +20,14 @@ def send_artnet_packet(channel_values):
         bytes(channel_values)
     )
 
+    print("📤 Verzendpakket:", len(packet), "bytes")
+    print("🧪 Kanaalwaarde CH1:", channel_values[0])
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.sendto(packet, ("127.0.0.1", 6454))
+    sent = sock.sendto(packet, ("127.0.0.1", 6454))
+    print(f"✅ Verzonden: {sent} bytes naar 127.0.0.1:6454")
     sock.close()
 
-# ⚠️ DMX kanaal 1 = waarde 255, rest 0
+# Simpele test: kanaal 1 op 255
 dmx_data = [255] + [0]*511
 send_artnet_packet(dmx_data)

@@ -24,7 +24,7 @@ def send_artnet_packet(channel_values):
     print("🧪 Kanaalwaarde CH1:", channel_values[0])
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sent = sock.sendto(packet, ("127.0.0.1", 6454))
+    sent = sock.sendto(packet, ("0.0.0.0", 6454))
     print(f"✅ Verzonden: {sent} bytes naar 127.0.0.1:6454")
     sock.close()
 

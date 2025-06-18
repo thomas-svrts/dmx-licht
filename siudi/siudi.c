@@ -107,72 +107,9 @@ bool init_usb() {
     return true;
 }
 
-bool open_device_sequence() {
-    unsigned char buf[1024] = {0};
-    send_control(0xC0, 33, 0x0000, 1, buf, 1, 100, "open: probe 1");
-    send_control(0xC0, 33, 0x0000, 0, buf, 64, 100, "open: probe 2");
-    send_control(0xC0, 33, 0x0001, 0, buf, 64, 100, "open: probe 3");
-
-    unsigned char dat[128] = {
-        0xd4, 0xf5, 0x15, 0x82, 0x12, 0x37, 0x99, 0x4f, 0x10, 0xbf, 0x34, 0xdd, 0x9b, 0x00, 0x0a, 0x74,
-        0x2a, 0xe5, 0xbe, 0x7c, 0xe1, 0xac, 0x72, 0xe4, 0x8a, 0xe7, 0xd0, 0x75, 0x9b, 0x79, 0xec, 0xb0,
-        0x61, 0xb5, 0x07, 0xdf, 0x27, 0x11, 0x90, 0xef, 0xdc, 0x9b, 0x0c, 0x36, 0x8f, 0xb8, 0x0b, 0xc0,
-        0x82, 0x34, 0x66, 0x6c, 0xc5, 0x9b, 0x88, 0xd7, 0x78, 0x23, 0x2a, 0x74, 0x9f, 0x3b, 0xbe, 0xb7,
-        0x4b, 0x44, 0x7c, 0x9d, 0xe1, 0x70, 0xf8, 0xec, 0x4a, 0x13, 0x74, 0x1d, 0xfe, 0x03, 0xce, 0x91,
-        0xb3, 0x74, 0xff, 0xf2, 0x0f, 0x34, 0x2e, 0xb2, 0x40, 0xb1, 0x67, 0x26, 0xa8, 0x52, 0x79, 0x3b,
-        0xf4, 0x79, 0x37, 0xb8, 0xbf, 0xf7, 0x79, 0x48, 0x61, 0xaf, 0xa9, 0xf5, 0x52, 0x2a, 0xbb, 0x39,
-        0x98, 0xd8, 0xd8, 0x78, 0x49, 0xde, 0x80, 0x63, 0x75, 0x44, 0xd0, 0xd3, 0xbd, 0x5d, 0x61, 0x86
-    };
-    send_control(0x40, 33, 0x0000, 0, dat, 128, 100, "open: blob");
-    send_control(0xC0, 33, 0x0000, 1, buf, 1, 100, "open: blob confirm");
-    send_control(0x40, 6, 0x0002, 0, buf, 0, 100, "open: trigger?");
-    send_control(0xC0, 2, 0x0000, 0, buf, 64, 100, "open: memory read");
-
-    return true;
-}
-
-bool setup_device_sequence() {
-    unsigned char ans[512] = {0};
-    ans[0] = 1; // universe
-    send_control(0x40, 48, 0xffff, 0, ans, 0, 100, "setup: set universe");
-    send_control(0x40, 17, 0x0001, 0, ans, 0, 100, "setup: DMX init");
-    send_control(0xC0, 33, 0x0000, 1, ans, 1, 100, "setup: status");
-    send_control(0x40, 33, 0x0000, 1, ans, 1, 100, "setup: confirm");
-
-    return true;
-}
-
-bool send_dmx_packet() {
-    unsigned char dmx[DMX_CHANNELS] = {0};
-    dmx[0] = 128;
-
-    unsigned char ans[1] = {0};
-    send_control(0xC0, 33, 0x0000, 1, ans, 1, 100, "pre-send status");
-
-    log_time();
-    printf("Sending DMX via BULK endpoint 0x02 in 64-byte chunks...\n");
-
-    int total_sent = 0;
-    for (int i = 0; i < DMX_CHANNELS; i += 64) {
-        int transferred = 0;
-        int len = (DMX_CHANNELS - i >= 64) ? 64 : (DMX_CHANNELS - i);
-        int rc = libusb_bulk_transfer(handle, 0x02, dmx + i, len, &transferred, 1000);
-        usleep(50000);
-        if (rc != 0) {
-            log_time();
-            fprintf(stderr, "❌ BULK chunk %d failed: %s\n", i / 64, libusb_strerror(rc));
-            return false;
-        }
-        log_time();
-        printf("✅ BULK chunk %d sent: %d bytes\n", i / 64, transferred);
-        total_sent += transferred;
-    }
-
-    log_time();
-    printf("✅ All DMX chunks sent (%d bytes total)\n", total_sent);
-    dump_bytes("First 64 bytes of DMX Packet", dmx, 64);
-    return true;
-}
+bool open_device_sequence();
+bool setup_device_sequence();
+bool send_dmx_packet();
 
 void shutdown_usb() {
     send_control(0x40, 6, 0x0003, 0, NULL, 0, 100, "shutdown");
@@ -189,6 +126,7 @@ int main() {
     if (!init_usb()) return 1;
     if (!open_device_sequence()) { shutdown_usb(); return 1; }
     if (!setup_device_sequence()) { shutdown_usb(); return 1; }
+    usleep(200000); // extra vertraging vóór eerste bulk transfer
     if (!send_dmx_packet()) { shutdown_usb(); return 1; }
     usleep(300000); // kleine vertraging
     shutdown_usb();

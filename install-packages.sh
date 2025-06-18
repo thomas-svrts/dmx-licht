@@ -9,25 +9,24 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githu
   https://cli.github.com/packages stable main" | \
   sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 
-sudo apt update
-sudo apt install gh -y
-
 
 echo "📦 Installing required packages..."
 sudo apt update
-sudo apt install -y git hostapd iptables haveged lighttpd
+sudo apt install -y git hostapd iptables haveged lighttpd gh python3-pip
+pip3 install Flask flask-cors
 
-sudo systemctl enable lighttpd
+sudo lighttpd-enable-mod proxy
+sudo lighttpd-enable-mod proxy-http
 
 
 echo "📁 Cloning linux-router repo..."
 curl -o lnxrouter https://raw.githubusercontent.com/garywill/linux-router/master/lnxrouter
 chmod +x lnxrouter
+chmod +x flask/app.py
 
 echo "⚙️ Making lnxrouter globally available..."
-sudo cp lnxrouter /usr/local/bin/
+cp lnxrouter /usr/local/bin/
 
-echo "✅ Done. Use ./start-ap.sh to start your access point."
 
 echo "🌐 Configureren van dnsmasq voor captive portal..."
 
@@ -38,9 +37,7 @@ echo "interface=wlan0" | sudo tee /etc/dnsmasq.conf > /dev/null
 echo "dhcp-range=10.10.0.10,10.10.0.50,12h" | sudo tee -a /etc/dnsmasq.conf > /dev/null
 echo "address=/#/10.10.0.1" | sudo tee -a /etc/dnsmasq.conf > /dev/null
 
-# Herstart dnsmasq als het al draait
-sudo systemctl restart dnsmasq
-echo "✅ dnsmasq is ingesteld voor captive gedrag."
+
 
 
 
@@ -70,7 +67,15 @@ if ! grep -q "url.rewrite-if-not-file" /etc/lighttpd/lighttpd.conf; then
 fi
 
 
-echo "🔄 Herstarten van lighttpd..."
+echo "🧾 Flask systemd-service installeren..."
+sudo cp ./systemd/flask-dmx.service /etc/systemd/system/flask-dmx.service
+sudo systemctl daemon-reexec
+sudo systemctl enable flask-dmx
+sudo systemctl start flask-dmx
+
+# Herstart services als het al draait
+sudo systemctl restart dnsmasq
+sudo systemctl enable lighttpd
 sudo systemctl restart lighttpd
 
 echo "✅ lighttpd is ingesteld met rewrite en captive trigger-bestanden."

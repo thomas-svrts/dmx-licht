@@ -146,17 +146,27 @@ bool send_dmx_packet() {
     unsigned char ans[1] = {0};
     send_control(0xC0, 33, 0x0000, 1, ans, 1, 100, "pre-send status");
 
-    int transferred = 0;
     log_time();
-    printf("Sending BULK transfer to endpoint 0x02 (%d bytes)...\n", DMX_CHANNELS);
-    int rc = libusb_bulk_transfer(handle, 0x02, dmx, DMX_CHANNELS, &transferred, 100);
-    if (rc != 0) {
-        log_time(); fprintf(stderr, "❌ BULK transfer failed: %s\n", libusb_strerror(rc));
-        return false;
+    printf("Sending DMX via BULK endpoint 0x02 in 64-byte chunks...\n");
+
+    int total_sent = 0;
+    for (int i = 0; i < DMX_CHANNELS; i += 64) {
+        int transferred = 0;
+        int len = (DMX_CHANNELS - i >= 64) ? 64 : (DMX_CHANNELS - i);
+        int rc = libusb_bulk_transfer(handle, 0x02, dmx + i, len, &transferred, 1000);
+        if (rc != 0) {
+            log_time();
+            fprintf(stderr, "❌ BULK chunk %d failed: %s\n", i / 64, libusb_strerror(rc));
+            return false;
+        }
+        log_time();
+        printf("✅ BULK chunk %d sent: %d bytes\n", i / 64, transferred);
+        total_sent += transferred;
     }
 
-    log_time(); printf("✅ BULK transfer succeeded (%d bytes sent)\n", transferred);
-    dump_bytes("DMX Packet", dmx, 64); // print alleen eerste 64 kanalen
+    log_time();
+    printf("✅ All DMX chunks sent (%d bytes total)\n", total_sent);
+    dump_bytes("First 64 bytes of DMX Packet", dmx, 64);
     return true;
 }
 

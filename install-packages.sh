@@ -59,7 +59,7 @@ if ! grep -q 'mod_rewrite' /etc/lighttpd/lighttpd.conf; then
   echo 'server.modules += ( "mod_rewrite" )' | sudo tee -a /etc/lighttpd/lighttpd.conf
 fi
 if ! grep -q 'mod_proxy' /etc/lighttpd/lighttpd.conf; then
-  echo 'server.modules += ( "mod_proxy", "mod_proxy_http" )' | sudo tee -a /etc/lighttpd/lighttpd.conf
+  echo 'server.modules += ( "mod_proxy" )' | sudo tee -a /etc/lighttpd/lighttpd.conf
 fi
 
 # Oude regels verwijderen

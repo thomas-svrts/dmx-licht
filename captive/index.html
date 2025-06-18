@@ -2,32 +2,28 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Chiro Lichtbediening</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script defer src="script.js"></script>
+  <title>DMX Controller</title>
   <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 2em;
-    }
-    input[type="range"] {
-      width: 80%;
-    }
+    body { font-family: sans-serif; padding: 1rem; }
+    label { display: inline-block; width: 140px; }
+    input[type="range"] { width: 200px; }
   </style>
 </head>
 <body>
-  <h1>💡 Chiro Licht</h1>
+  <h1>DMX Kleur- en helderheidscontrole</h1>
 
-  <label for="kleur">Kleur:</label><br>
-  <input type="color" id="kleur" value="#ffcc00"><br><br>
+  <label for="color">Kleur:</label>
+  <input type="color" id="color" value="#ff0000"><br><br>
 
-  <label for="helderheid">Helderheid:</label><br>
-  <input type="range" id="helderheid" min="0" max="255" value="128"><br><br>
+  <label for="brightness">Helderheid:</label>
+  <input type="range" id="brightness" min="0" max="255" value="255">
+  <span id="brightnessValue">255</span><br><br>
 
-  <button onclick="stuurLicht()">Verstuur</button>
+  <button onclick="sendDMX()">Verstuur</button>
 
-    <script src="script.js"></script>
+  <h2>Antwoord</h2>
+  <pre id="response"></pre>
 
+  <script src="script.js"></script>
 </body>
 </html>

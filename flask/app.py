@@ -40,7 +40,8 @@ def set_dmx_batch():
         try:
             channel = int(entry.get('channel'))
             value = int(entry.get('value'))
-            subprocess.run(["/usr/local/bin/dmx-set", str(channel), str(value)], check=True)
+            print(f"Simulatie: kanaal {channel}, waarde {value}")
+            # subprocess.run(["/usr/local/bin/dmx-set", str(channel), str(value)], check=True)
             responses.append({"channel": channel, "value": value, "status": "ok"})
         except Exception as e:
             responses.append({"error": str(e), "entry": entry})

@@ -1,0 +1,184 @@
+
+=== SIUDI ULTRA DEBUG SESSION START ===
+[2025-06-19 00:23:43.969] Initializing libusb...
+[2025-06-19 00:23:43.995] Device interface claimed successfully.
+[2025-06-19 00:23:43.995] CONTROL [open: probe 1] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0001 | length: 1 | timeout: 100 ms
+[2025-06-19 00:23:43.997]   ✅ Control transfer SUCCESS (1 bytes transferred)
+[2025-06-19 00:23:43.997]   Data IN (1 bytes):
+  01 
+[2025-06-19 00:23:43.997] CONTROL [open: probe 2] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0000 | length: 64 | timeout: 100 ms
+[2025-06-19 00:23:44.000]   ✅ Control transfer SUCCESS (64 bytes transferred)
+[2025-06-19 00:23:44.000]   Data IN (64 bytes):
+  32 74 A5 4D 98 58 CC 94 84 D4 9E 40 79 69 FD 19 
+  D1 73 39 60 2E 87 EF EB 06 01 D9 33 D4 F8 84 63 
+  E1 39 66 78 51 23 8C D7 A0 B4 AF 4A BD 9D D2 D7 
+  19 41 60 93 39 EE 01 CA D6 8F 58 94 6E 00 A9 50 
+[2025-06-19 00:23:44.000] CONTROL [open: probe 3] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0001 | wIndex: 0x0000 | length: 64 | timeout: 100 ms
+[2025-06-19 00:23:44.003]   ✅ Control transfer SUCCESS (64 bytes transferred)
+[2025-06-19 00:23:44.003]   Data IN (64 bytes):
+  32 74 A5 4D 98 58 CC 94 84 D4 9E 40 79 69 FD 19 
+  D1 73 39 60 2E 87 EF EB 06 01 D9 33 D4 F8 84 63 
+  E1 39 66 78 51 23 8C D7 A0 B4 AF 4A BD 9D D2 D7 
+  19 41 60 93 39 EE 01 CA D6 8F 58 94 6E 00 A9 50 
+[2025-06-19 00:23:44.003] CONTROL [open: blob] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0000 | length: 128 | timeout: 100 ms
+[2025-06-19 00:23:44.003]   Data OUT (128 bytes):
+  D4 F5 15 82 12 37 99 4F 10 BF 34 DD 9B 00 0A 74 
+  2A E5 BE 7C E1 AC 72 E4 8A E7 D0 75 9B 79 EC B0 
+  61 B5 07 DF 27 11 90 EF DC 9B 0C 36 8F B8 0B C0 
+  82 34 66 6C C5 9B 88 D7 78 23 2A 74 9F 3B BE B7 
+  4B 44 7C 9D E1 70 F8 EC 4A 13 74 1D FE 03 CE 91 
+  B3 74 FF F2 0F 34 2E B2 40 B1 67 26 A8 52 79 3B 
+  F4 79 37 B8 BF F7 79 48 61 AF A9 F5 52 2A BB 39 
+  98 D8 D8 78 49 DE 80 63 75 44 D0 D3 BD 5D 61 86 
+[2025-06-19 00:23:44.103] [2025-06-19 00:23:44.105] CONTROL [open: blob confirm] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0001 | length: 1 | timeout: 100 ms
+[2025-06-19 00:23:44.106]   ✅ Control transfer SUCCESS (1 bytes transferred)
+[2025-06-19 00:23:44.106]   Data IN (1 bytes):
+  01 
+[2025-06-19 00:23:44.106] CONTROL [open: trigger?] bRequest=0x06 (RESET / STOP?)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0x0002 | wIndex: 0x0000 | length: 0 | timeout: 100 ms
+[2025-06-19 00:23:44.106]   ✅ Control transfer SUCCESS (0 bytes transferred)
+[2025-06-19 00:23:44.106] CONTROL [open: memory read] bRequest=0x02 (UNKNOWN)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0000 | length: 64 | timeout: 100 ms
+[2025-06-19 00:23:44.107]   ✅ Control transfer SUCCESS (64 bytes transferred)
+[2025-06-19 00:23:44.107]   Data IN (64 bytes):
+  C7 68 06 00 33 00 00 80 00 00 00 00 4E 4F 20 4E 
+  41 4D 45 00 00 00 00 00 00 00 00 00 00 00 00 00 
+  1F 03 1B 0A 64 00 12 00 02 00 01 00 64 00 12 00 
+  02 00 01 00 64 00 12 00 02 00 01 00 38 97 F9 FF 
+[2025-06-19 00:23:44.107] CONTROL [setup: set universe] bRequest=0x30 (SET UNIVERSE)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0xFFFF | wIndex: 0x0000 | length: 0 | timeout: 100 ms
+[2025-06-19 00:23:44.108]   ✅ Control transfer SUCCESS (0 bytes transferred)
+[2025-06-19 00:23:44.108] CONTROL [setup: DMX init] bRequest=0x11 (INIT DMX OUT?)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0x0001 | wIndex: 0x0000 | length: 0 | timeout: 100 ms
+[2025-06-19 00:23:44.108]   ✅ Control transfer SUCCESS (-9 bytes transferred)
+[2025-06-19 00:23:44.108] CONTROL [setup: status] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0001 | length: 1 | timeout: 100 ms
+[2025-06-19 00:23:44.109]   ✅ Control transfer SUCCESS (1 bytes transferred)
+[2025-06-19 00:23:44.109]   Data IN (1 bytes):
+  01 
+[2025-06-19 00:23:44.109] CONTROL [setup: confirm] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0001 | length: 1 | timeout: 100 ms
+[2025-06-19 00:23:44.109]   Data OUT (1 bytes):
+  01 
+[2025-06-19 00:23:44.112]   ✅ Control transfer SUCCESS (-9 bytes transferred)
+[2025-06-19 00:23:44.112] CONTROL [pre-send status] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0001 | length: 1 | timeout: 100 ms
+[2025-06-19 00:23:44.113]   ✅ Control transfer SUCCESS (1 bytes transferred)
+[2025-06-19 00:23:44.113]   Data IN (1 bytes):
+  01 
+[2025-06-19 00:23:44.113] Sending BULK transfer to endpoint 0x02 (512 bytes)...
+[2025-06-19 00:23:44.213] [2025-06-19 00:23:44.215] CONTROL [shutdown] bRequest=0x06 (RESET / STOP?)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0x0003 | wIndex: 0x0000 | length: 0 | timeout: 100 ms
+[2025-06-19 00:23:44.221]   ✅ Control transfer SUCCESS (0 bytes transferred)
+[2025-06-19 00:23:44.222] Device shutdown complete.
+  ❌ Control transfer FAILED: Operation timed out
+
+=== SIUDI ULTRA DEBUG SESSION START ===
+[2025-06-19 00:24:58.385] Initializing libusb...
+[2025-06-19 00:24:58.410] Device interface claimed successfully.
+[2025-06-19 00:24:58.410] CONTROL [open: probe 1] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0001 | length: 1 | timeout: 100 ms
+[2025-06-19 00:24:58.413]   ✅ Control transfer SUCCESS (1 bytes transferred)
+[2025-06-19 00:24:58.413]   Data IN (1 bytes):
+  01 
+[2025-06-19 00:24:58.413] CONTROL [open: probe 2] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0000 | length: 64 | timeout: 100 ms
+[2025-06-19 00:24:58.416]   ✅ Control transfer SUCCESS (64 bytes transferred)
+[2025-06-19 00:24:58.416]   Data IN (64 bytes):
+  32 74 A5 4D 98 58 CC 94 84 D4 9E 40 79 69 FD 19 
+  D1 73 39 60 2E 87 EF EB 06 01 D9 33 D4 F8 84 63 
+  E1 39 66 78 51 23 8C D7 A0 B4 AF 4A BD 9D D2 D7 
+  19 41 60 93 39 EE 01 CA D6 8F 58 94 6E 00 A9 50 
+[2025-06-19 00:24:58.416] CONTROL [open: probe 3] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0001 | wIndex: 0x0000 | length: 64 | timeout: 100 ms
+[2025-06-19 00:24:58.418]   ✅ Control transfer SUCCESS (64 bytes transferred)
+[2025-06-19 00:24:58.418]   Data IN (64 bytes):
+  32 74 A5 4D 98 58 CC 94 84 D4 9E 40 79 69 FD 19 
+  D1 73 39 60 2E 87 EF EB 06 01 D9 33 D4 F8 84 63 
+  E1 39 66 78 51 23 8C D7 A0 B4 AF 4A BD 9D D2 D7 
+  19 41 60 93 39 EE 01 CA D6 8F 58 94 6E 00 A9 50 
+[2025-06-19 00:24:58.419] CONTROL [open: blob] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0000 | length: 128 | timeout: 100 ms
+[2025-06-19 00:24:58.419]   Data OUT (128 bytes):
+  D4 F5 15 82 12 37 99 4F 10 BF 34 DD 9B 00 0A 74 
+  2A E5 BE 7C E1 AC 72 E4 8A E7 D0 75 9B 79 EC B0 
+  61 B5 07 DF 27 11 90 EF DC 9B 0C 36 8F B8 0B C0 
+  82 34 66 6C C5 9B 88 D7 78 23 2A 74 9F 3B BE B7 
+  4B 44 7C 9D E1 70 F8 EC 4A 13 74 1D FE 03 CE 91 
+  B3 74 FF F2 0F 34 2E B2 40 B1 67 26 A8 52 79 3B 
+  F4 79 37 B8 BF F7 79 48 61 AF A9 F5 52 2A BB 39 
+  98 D8 D8 78 49 DE 80 63 75 44 D0 D3 BD 5D 61 86 
+[2025-06-19 00:24:58.519] [2025-06-19 00:24:58.519] CONTROL [open: blob confirm] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0001 | length: 1 | timeout: 100 ms
+[2025-06-19 00:24:58.522]   ✅ Control transfer SUCCESS (1 bytes transferred)
+[2025-06-19 00:24:58.522]   Data IN (1 bytes):
+  01 
+[2025-06-19 00:24:58.522] CONTROL [open: trigger?] bRequest=0x06 (RESET / STOP?)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0x0002 | wIndex: 0x0000 | length: 0 | timeout: 100 ms
+[2025-06-19 00:24:58.522]   ✅ Control transfer SUCCESS (0 bytes transferred)
+[2025-06-19 00:24:58.522] CONTROL [open: memory read] bRequest=0x02 (UNKNOWN)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0000 | length: 64 | timeout: 100 ms
+[2025-06-19 00:24:58.523]   ✅ Control transfer SUCCESS (64 bytes transferred)
+[2025-06-19 00:24:58.523]   Data IN (64 bytes):
+  C7 68 06 00 33 00 00 80 00 00 00 00 4E 4F 20 4E 
+  41 4D 45 00 00 00 00 00 00 00 00 00 00 00 00 00 
+  1F 03 1B 0A 64 00 12 00 02 00 01 00 64 00 12 00 
+  02 00 01 00 64 00 12 00 02 00 01 00 38 97 F9 FF 
+[2025-06-19 00:24:58.523] CONTROL [setup: set universe] bRequest=0x30 (SET UNIVERSE)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0xFFFF | wIndex: 0x0000 | length: 0 | timeout: 100 ms
+[2025-06-19 00:24:58.523]   ✅ Control transfer SUCCESS (0 bytes transferred)
+[2025-06-19 00:24:58.523] CONTROL [setup: DMX init] bRequest=0x11 (INIT DMX OUT?)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0x0001 | wIndex: 0x0000 | length: 0 | timeout: 100 ms
+[2025-06-19 00:24:58.524]   ✅ Control transfer SUCCESS (-9 bytes transferred)
+[2025-06-19 00:24:58.524] CONTROL [setup: status] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0001 | length: 1 | timeout: 100 ms
+[2025-06-19 00:24:58.525]   ✅ Control transfer SUC❌ BULK transfer failed: Operation timed out
+CESS (1 bytes transferred)
+[2025-06-19 00:24:58.525]   Data IN (1 bytes):
+  01 
+[2025-06-19 00:24:58.525] CONTROL [setup: confirm] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0001 | length: 1 | timeout: 100 ms
+[2025-06-19 00:24:58.525]   Data OUT (1 bytes):
+  01 
+[2025-06-19 00:24:58.528]   ✅ Control transfer SUCCESS (-9 bytes transferred)
+[2025-06-19 00:24:58.528] CONTROL [pre-send status] bRequest=0x21 (DEVICE STATUS)
+  bmRequestType: 0xC0 (IN | Vendor | Device)
+  wValue: 0x0000 | wIndex: 0x0001 | length: 1 | timeout: 100 ms
+[2025-06-19 00:24:58.529]   ✅ Control transfer SUCCESS (1 bytes transferred)
+[2025-06-19 00:24:58.529]   Data IN (1 bytes):
+  01 
+[2025-06-19 00:24:58.529] Sending BULK transfer to endpoint 0x02 (512 bytes)...
+[2025-06-19 00:24:58.629] [2025-06-19 00:24:58.629] CONTROL [shutdown] bRequest=0x06 (RESET / STOP?)
+  bmRequestType: 0x40 (OUT | Vendor | Device)
+  wValue: 0x0003 | wIndex: 0x0000 | length: 0 | timeout: 100 ms
+[2025-06-19 00:24:58.635]   ✅ Control transfer SUCCESS (0 bytes transferred)
+[2025-06-19 00:24:58.635] Device shutdown complete.

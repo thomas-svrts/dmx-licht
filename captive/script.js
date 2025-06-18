@@ -11,7 +11,7 @@ function sendDMX() {
   const g = parseInt(hexColor.substr(3, 2), 16);
   const b = parseInt(hexColor.substr(5, 2), 16);
 
-  const baseChannel = 1; // eventueel aanpassen
+  const baseChannel = 1;
   const payload = [
     { channel: baseChannel, value: r },
     { channel: baseChannel + 1, value: g },
@@ -19,18 +19,31 @@ function sendDMX() {
     { channel: baseChannel + 3, value: brightness }
   ];
 
+  // Toon de verzonden payload
+  let debugOutput = "📤 Verzonden payload:\n" + JSON.stringify(payload, null, 2) + "\n\n";
+
   fetch("/api/dmx/batch", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   })
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("response").textContent =
-        JSON.stringify(data, null, 2);
+    .then(async (res) => {
+      debugOutput += `📥 HTTP status: ${res.status} ${res.statusText}\n`;
+
+      let text = await res.text();
+      try {
+        const json = JSON.parse(text);
+        debugOutput += "\n✅ JSON response:\n" + JSON.stringify(json, null, 2);
+      } catch (e) {
+        debugOutput += "\n❌ Response is geen geldige JSON:\n" + text;
+      }
+
+      document.getElementById("response").textContent = debugOutput;
     })
-    .catch(err => {
-      document.getElementById("response").textContent = "❌ Fout: " + err;
+    .catch((err) => {
+      debugOutput += "\n❌ Netwerkfout:\n" + err;
+      document.getElementById("response").textContent = debugOutput;
     });
 }
+
 

@@ -3,8 +3,8 @@ Description=Flask DMX Backend
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /home/pi/flask/app.py
-WorkingDirectory=/home/pi/flask
+ExecStart=/usr/bin/python3 /home/pi/dmx-licht/flask/app.py
+WorkingDirectory=/home/pi/dmx-licht/flask
 Restart=always
 User=pi
 

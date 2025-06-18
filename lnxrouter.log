@@ -1,0 +1,100 @@
+WARN: brmfmac driver doesn't work properly with virtual interfaces and
+      it can cause kernel panic. For this reason we disallow virtual
+      interfaces for your adapter.
+      For more info: https://github.com/oblique/create_ap/issues/203
+WARN: Your adapter does not fully support AP virtual interface, enabling --no-virt
+linux-router 0.7.6 (https://github.com/garywill/linux-router)
+Released under LGPL, with no warranty. Use on your own risk.
+
+PID: 1522
+Target interface is wlan0 (2c:cf:67:3f:4b:ca) 
+unknown
+
+Channel not specified, use default
+WARN: WiFi is not protected by password
+
+iptables v1.8.7 (nf_tables)
+Notice: Not showing all operations done to iptables rules
+
+haveged_watchdog PID: 1607
+
+Starting hostapd
+hostapd PID: 1614
+Configuration file: /dev/shm/lnxrouter_tmp/lnxrouter.wlan0.conf.oV5DqJ/hostapd.conf
+nl80211: kernel reports: Match already configured
+nl80211: kernel reports: Match already configured
+nl80211: kernel reports: Match already configured
+nl80211: kernel reports: Match already configured
+nl80211: kernel reports: Match already configured
+nl80211: kernel reports: Match already configured
+nl80211: kernel reports: Match already configured
+nl80211: kernel reports: Match already configured
+nl80211: kernel reports: Match already configured
+nl80211: kernel reports: Match already configured
+nl80211: kernel reports: Match already configured
+nl80211: kernel reports: Match already configured
+wlan0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Could not set channel for kernel driver
+Interface initialization failed
+wlan0: interface state COUNTRY_UPDATE->DISABLED
+wlan0: AP-DISABLED 
+wlan0: Unable to setup interface.
+wlan0: interface state DISABLED->DISABLED
+wlan0: AP-DISABLED 
+wlan0: CTRL-EVENT-TERMINATING 
+hostapd_free_hapd_data: Interface wlan0 wasn't started
+nl80211: deinit ifname=wlan0 disabled_11b_rates=0
+No Internet sharing
+
+iptables: allow DNS
+ACCEPT  tcp opt -- in wlan0 out *  10.10.0.0/24  -> 10.10.0.1   tcp dpt:53 /* lrt1522wlan0 */
+ACCEPT  udp opt -- in wlan0 out *  10.10.0.0/24  -> 10.10.0.1   udp dpt:53 /* lrt1522wlan0 */
+
+iptables: redirect DNS queries to this host
+REDIRECT  tcp opt -- in wlan0 out *  0.0.0.0/0 !-> 10.10.0.1   tcp dpt:53 /* lrt1522wlan0 */ redir ports 53
+REDIRECT  udp opt -- in wlan0 out *  0.0.0.0/0 !-> 10.10.0.1   udp dpt:53 /* lrt1522wlan0 */ redir ports 53
+
+iptables: allow dhcp
+ACCEPT  udp opt -- in wlan0 out *  0.0.0.0/0  -> 0.0.0.0/0   udp dpt:67 /* lrt1522wlan0 */
+
+Starting dnsmasq
+Jun 17 20:56:42 dnsmasq[1654]: started, version 2.85 cachesize 150
+Jun 17 20:56:42 dnsmasq[1654]: compile time options: IPv6 GNU-getopt DBus no-UBus i18n IDN2 DHCP DHCPv6 no-Lua TFTP conntrack ipset auth cryptohash DNSSEC loop-detect inotify dumpfile
+Jun 17 20:56:42 dnsmasq[1654]: warning: no upstream servers configured
+Jun 17 20:56:42 dnsmasq-dhcp[1654]: DHCP, IP range 10.10.0.10 -- 10.10.0.250, lease time 1h
+Jun 17 20:56:42 dnsmasq-dhcp[1654]: DHCP, sockets bound exclusively to interface wlan0
+Jun 17 20:56:42 dnsmasq[1654]: cleared cache
+dnsmasq PID: 1654
+
+
+== Setting up completed, now linux-router should be working ==
+Error occured
+
+ERROR: hostapd failed. (tip: try '--hostapd-debug' to get some debug info)
+
+Error occured
+
+
+Doing cleanup.. 
+Jun 17 20:56:49 dnsmasq[1654]: exiting on receipt of SIGTERM
+Killed dnsmasq.pid 1654 dnsmasq
+Terminated
+Killed haveged_watchdog.pid 1607 lnxrouter
+Terminated
+Killed keep_running.pid 1694 bash
+Undoing iptables changes ..
+Restore wlan0 to link up
+Exiting: This is NOT the only running instance
+Cleaning up done
+Error occured
+
+ERROR: dnsmasq failed
+
+/usr/local/bin/lnxrouter: line 1384: kill: (1522) - No such process
+
+
+Doing cleanup.. 
+Undoing iptables changes ..
+Restore wlan0 to link up
+Exiting: This is NOT the only running instance
+Cleaning up done

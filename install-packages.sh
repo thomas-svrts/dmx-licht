@@ -87,7 +87,7 @@ echo "🧾 Flask systemd-service installeren..."
 sudo cp ./systemd/flask-dmx.service /etc/systemd/system/flask-dmx.service
 sudo systemctl daemon-reexec
 sudo systemctl enable flask-dmx
-sudo systemctl start flask-dmx
+sudo systemctl restart flask-dmx
 
 # Herstart services als het al draait
 sudo systemctl restart dnsmasq

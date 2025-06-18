@@ -1,14 +1,19 @@
-function stuurLicht() {
-  const kleur = document.getElementById("kleur").value;
-  const helderheid = document.getElementById("helderheid").value;
+function sendDMX() {
+  const channel = parseInt(document.getElementById("channel").value);
+  const value = parseInt(document.getElementById("value").value);
 
-  fetch("/api/licht", {
+  fetch("/api/dmx", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ kleur, helderheid })
+    body: JSON.stringify({ channel, value })
   })
-  .then(response => response.ok ? alert("Verzonden!") : alert("Fout bij verzenden"))
-  .catch(() => alert("Server niet bereikbaar"));
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("response").textContent = JSON.stringify(data, null, 2);
+  })
+  .catch(err => {
+    document.getElementById("response").textContent = "❌ Fout: " + err;
+  });
 }

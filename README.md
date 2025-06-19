@@ -52,8 +52,8 @@ sudo reboot
 ## 📶 Wat gebeurt er na reboot?
 
 - De Pi zendt een Wi-Fi-netwerk uit met SSID `chiroheffen-licht`
-- Toestellen die verbinden krijgen automatisch een IP-adres (192.168.4.x)
-- Al het netwerkverkeer wordt omgeleid naar de Pi zelf (`192.168.4.1`)
+- Toestellen die verbinden krijgen automatisch een IP-adres 10.10.0.x)
+- Al het netwerkverkeer wordt omgeleid naar de Pi zelf (`10.10.0.1`)
 - (Volgende stap:) de webinterface zal verschijnen
 
 

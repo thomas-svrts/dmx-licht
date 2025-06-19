@@ -56,23 +56,6 @@ sudo reboot
 - Al het netwerkverkeer wordt omgeleid naar de Pi zelf (`192.168.4.1`)
 - (Volgende stap:) de webinterface zal verschijnen
 
----
-
-## 📁 Overzicht van de bestanden
-
-dmx-licht/
-├── install-packages.sh              # Installatiescript
-├── Setup/
-│   ├── dhcpcd.conf                  # Statisch IP voor wlan0
-│   ├── dnsmasq.conf                 # DHCP + DNS omleiding
-│   ├── hostapd.conf                 # Wi-Fi access point
-│   └── hostapd-default              # Daemon config
-├── web/                             # Captive portal frontend
-│   ├── index.html                   # Webinterface (kleurkiezer, sliders)
-│   └── script.js                    # DMX-bediening via REST
-└── api/                             # Flask-backend voor DMX
-    ├── app.py                       # REST-server met endpoint `/api/dmx`
-    └── dmx_set.sh                   # Script dat DMX-waarden doorstuurt
 
 ---
 

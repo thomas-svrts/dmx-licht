@@ -1,33 +1,27 @@
-import socket
+import serial
+import time
 
-def send_artnet_packet(channel_values):
-    ARTNET_HEADER = b'Art-Net\x00'
-    OP_OUTPUT = (0x5000).to_bytes(2, 'little')
-    prot_ver = (14).to_bytes(2, 'big')
-    seq = b'\x00'
-    phys = b'\x00'
-    universe = (0).to_bytes(2, 'little')
-    length = len(channel_values).to_bytes(2, 'big')
+# Open de Enttec seriële poort — pas aan als jouw device anders heet
+ser = serial.Serial('/dev/ttyUSB0', baudrate=250000)
 
-    packet = (
-        ARTNET_HEADER +
-        OP_OUTPUT +
-        prot_ver +
-        seq +
-        phys +
-        universe +
-        length +
-        bytes(channel_values)
-    )
+# DMX frame: kanaal 1 op 128, rest op 0
+dmx_frame = bytearray([128] + [0] * 511)
 
-    print("📤 Verzendpakket:", len(packet), "bytes")
-    print("🧪 Kanaalwaarde CH1:", channel_values[0])
+try:
+    print("DMX output gestart. Druk Ctrl+C om te stoppen.")
+    while True:
+        # DMX break + MAB
+        ser.break_condition = True
+        time.sleep(0.0001)  # 100 µs break
+        ser.break_condition = False
+        time.sleep(0.000012)  # 12 µs MAB
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sent = sock.sendto(packet, ("0.0.0.0", 6454))
-    print(f"✅ Verzonden: {sent} bytes naar 127.0.0.1:6454")
-    sock.close()
+        # Stuur frame
+        ser.write(dmx_frame)
 
-# Simpele test: kanaal 1 op 255
-dmx_data = [255] + [0]*511
-send_artnet_packet(dmx_data)
+        # Wacht ~25 ms = 40 fps
+        time.sleep(0.025)
+
+except KeyboardInterrupt:
+    print("DMX output gestopt.")
+    ser.close()

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+
 type -p curl >/dev/null || sudo apt install curl -y
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | \
   sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
@@ -41,7 +44,7 @@ pro_fps_limit = 190
 tri_use_raw_rdm = false
 ultra_fps_limit = 40
 EOF
-sudo tee ./ola-opendmx.conf > /dev/null <<EOF
+sudo tee /ola-opendmx.conf > /dev/null <<EOF
 device = /dev/dmx0
 enabled = false
 EOF
@@ -76,7 +79,7 @@ echo "address=/#/10.10.0.1" | sudo tee -a /etc/dnsmasq.conf > /dev/null
 
 echo "📁 Deploying captive portal files to /var/www/html..."
 sudo mkdir -p /var/www/html
-sudo cp -r ./captive/* /var/www/html/
+sudo cp -r $SCRIPT_DIR/captive/* /var/www/html/
 sudo chown -R www-data:www-data /var/www/html
 sudo chmod -R 755 /var/www/html
 echo "✅ Captive portal geïnstalleerd."
@@ -129,7 +132,7 @@ ola_patch -d $DMX_DEVICE_NUMBER -p $DMX_PORT_NUMBER -u $DMX_UNIVERSE
 
 
 echo "🧾 Flask systemd-service installeren..."
-sudo cp ./systemd/flask-dmx.service /etc/systemd/system/flask-dmx.service
+sudo cp $SCRIPT_DIR/systemd/flask-dmx.service /etc/systemd/system/flask-dmx.service
 sudo systemctl daemon-reexec
 sudo systemctl enable flask-dmx
 sudo systemctl restart flask-dmx

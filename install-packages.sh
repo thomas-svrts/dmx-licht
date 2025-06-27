@@ -50,7 +50,7 @@ enabled = false
 EOF
 sudo killall -s SIGHUP olad
 sudo service olad restart
-sleep 10
+sleep 5
 
 
 

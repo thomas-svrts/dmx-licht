@@ -1,20 +1,23 @@
 from flask import Flask, request, jsonify
 from ola.ClientWrapper import ClientWrapper
-
-import subprocess
+import array
 
 app = Flask(__name__)
 
 def send_dmx(universe, channel_values):
-    frame = [0] * 512
+    # Maak een frame met 512 kanalen, allemaal 0
+    frame = array.array('B', [0] * 512)
+
+    # Zet de gevraagde kanalen
     for entry in channel_values:
         ch = entry['channel']
         val = entry['value']
         if 1 <= ch <= 512:
             frame[ch - 1] = val
+
     wrapper = ClientWrapper()
     client = wrapper.Client()
-    client.SendDmx(universe, bytearray(frame), lambda state: wrapper.Stop())
+    client.SendDmx(universe, frame, lambda status: wrapper.Stop())
     wrapper.Run()
 
 @app.route('/api/dmx/batch', methods=['POST'])
@@ -35,7 +38,6 @@ def set_dmx_batch():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000)

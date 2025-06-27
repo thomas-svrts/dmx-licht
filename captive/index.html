@@ -12,14 +12,31 @@
 <body>
   <h1>DMX Kleur- en helderheidscontrole</h1>
 
-  <label for="color">Kleur:</label>
-  <input type="color" id="color" value="#ff0000"><br><br>
+<label for="color">Kleur:</label>
+<input type="color" id="color" value="#ff0000"><br><br>
 
-  <label for="brightness">Helderheid:</label>
-  <input type="range" id="brightness" min="0" max="255" value="255">
-  <span id="brightnessValue">255</span><br><br>
+<label for="brightness">Helderheid:</label>
+<input type="range" id="brightness" min="0" max="255" value="255">
+<span id="brightnessValue">255</span><br><br>
 
-  <button onclick="sendDMX()">Verstuur</button>
+<label for="amber">Amber:</label>
+<input type="range" id="amber" min="0" max="255" value="0">
+<span id="amberValue">0</span><br><br>
+
+<label for="strobe">Strobe:</label>
+<input type="range" id="strobe" min="0" max="255" value="0">
+<span id="strobeValue">0</span><br><br>
+
+<label for="macro">Macro:</label>
+<input type="range" id="macro" min="0" max="255" value="0">
+<span id="macroValue">0</span><br><br>
+
+<label for="macroSpeed">Macro snelheid:</label>
+<input type="range" id="macroSpeed" min="0" max="255" value="0">
+<span id="macroSpeedValue">0</span><br><br>
+
+<button onclick="sendDMX()">Verstuur</button>
+
 
   <a href="http://10.10.0.1:9090">test hier OLA</a>
 

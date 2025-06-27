@@ -9,10 +9,14 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githu
   https://cli.github.com/packages stable main" | \
   sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 
+echo 'deb http://apt.openlighting.org/raspbian bullseye main' | sudo tee /etc/apt/sources.list.d/ola.list
+
+curl http://apt.openlighting.org/ola.gpg | sudo apt-key add -
+
 
 echo "📦 Installing required packages..."
 sudo apt update
-sudo apt install -y git hostapd iptables haveged lighttpd gh python3-pip
+sudo apt install -y git hostapd iptables haveged lighttpd gh python3-pip ola
 pip3 install Flask flask-cors
 
 sudo lighttpd-enable-mod proxy

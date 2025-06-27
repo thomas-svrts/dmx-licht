@@ -13,29 +13,43 @@ echo 'deb http://apt.openlighting.org/raspbian bullseye main' | sudo tee /etc/ap
 
 curl http://apt.openlighting.org/ola.gpg | sudo apt-key add -
 
-# Installeer OLA en basis-tools
-sudo apt-get update
-sudo apt-get install -y ola ola-python python3-pip git
-
-# Configuratie: disable andere serial drivers
-sudo tee /etc/ola/ola-usbserial.conf > /dev/null <<EOF
-enabled = false
-EOF
-
-# Configuratie: disable OpenDMX fallback op /dev/dmx0
-sudo tee /etc/ola/ola-opendmx.conf > /dev/null <<EOF
-device = /dev/dmx0
-enabled = false
-EOF
 
 
 echo "📦 Installing required packages..."
 sudo apt update
-sudo apt install -y git hostapd iptables haveged lighttpd gh python3-pip ola
+sudo apt install -y git hostapd iptables haveged lighttpd gh python3-pip ola ola-python
 pip3 install Flask flask-cors
 
 sudo lighttpd-enable-mod proxy
 sudo lighttpd-enable-mod proxy-http
+
+sudo adduser pi olad
+
+
+cd /etc/ola/
+sudo tee ./ola-ftdidmx.conf > /dev/null <<EOL
+enabled = true
+frequency = 30
+EOL
+sudo tee ./ola-usbserial.conf > /dev/null <<EOF
+device_dir = /dev
+device_prefix = ttyUSB
+device_prefix = cu.usbserial-
+device_prefix = ttyU
+enabled = false
+pro_fps_limit = 190
+tri_use_raw_rdm = false
+ultra_fps_limit = 40
+EOF
+sudo tee ./ola-opendmx.conf > /dev/null <<EOF
+device = /dev/dmx0
+enabled = false
+EOF
+sudo killall -s SIGHUP olad
+sudo service olad restart
+sleep 10
+
+
 
 
 echo "📁 Cloning linux-router repo..."
@@ -100,22 +114,16 @@ EOF
 
 
 
-# Herstart OLA
-sudo systemctl restart olad
 
-# Wacht even tot olad init is
-sleep 5
 
-# Zoek en patch device naar universe 0
+
+ola_dev_info | grep FT232R
 DMX_DEVICE_NUMBER=$(ola_dev_info | grep FT232R | grep -oP '(?<=Device )(\d+)')
 DMX_PORT_NUMBER=$(ola_dev_info | grep FT232R | grep -oP '(?<=port )(\d)')
+DMX_UNIVERSE=0
+ola_patch -d $DMX_DEVICE_NUMBER -p $DMX_PORT_NUMBER -u $DMX_UNIVERSE
 
-if [ -n "$DMX_DEVICE_NUMBER" ] && [ -n "$DMX_PORT_NUMBER" ]; then
-  ola_patch -d $DMX_DEVICE_NUMBER -p $DMX_PORT_NUMBER -u 0
-  echo "✅ OpenDMX device gepatcht naar universe 0"
-else
-  echo "⚠️ OpenDMX device niet gevonden. Controleer verbinding."
-fi
+
 
 
 

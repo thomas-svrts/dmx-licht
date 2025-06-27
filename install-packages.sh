@@ -13,6 +13,21 @@ echo 'deb http://apt.openlighting.org/raspbian bullseye main' | sudo tee /etc/ap
 
 curl http://apt.openlighting.org/ola.gpg | sudo apt-key add -
 
+# Installeer OLA en basis-tools
+sudo apt-get update
+sudo apt-get install -y ola ola-python python3-pip git
+
+# Configuratie: disable andere serial drivers
+sudo tee /etc/ola/ola-usbserial.conf > /dev/null <<EOF
+enabled = false
+EOF
+
+# Configuratie: disable OpenDMX fallback op /dev/dmx0
+sudo tee /etc/ola/ola-opendmx.conf > /dev/null <<EOF
+device = /dev/dmx0
+enabled = false
+EOF
+
 
 echo "📦 Installing required packages..."
 sudo apt update
@@ -83,6 +98,24 @@ url.rewrite = (
 }
 EOF
 
+
+
+# Herstart OLA
+sudo systemctl restart olad
+
+# Wacht even tot olad init is
+sleep 5
+
+# Zoek en patch device naar universe 0
+DMX_DEVICE_NUMBER=$(ola_dev_info | grep FT232R | grep -oP '(?<=Device )(\d+)')
+DMX_PORT_NUMBER=$(ola_dev_info | grep FT232R | grep -oP '(?<=port )(\d)')
+
+if [ -n "$DMX_DEVICE_NUMBER" ] && [ -n "$DMX_PORT_NUMBER" ]; then
+  ola_patch -d $DMX_DEVICE_NUMBER -p $DMX_PORT_NUMBER -u 0
+  echo "✅ OpenDMX device gepatcht naar universe 0"
+else
+  echo "⚠️ OpenDMX device niet gevonden. Controleer verbinding."
+fi
 
 
 

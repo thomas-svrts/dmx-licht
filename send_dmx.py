@@ -1,27 +1,39 @@
 import serial
 import time
 
-# Open de Enttec seriële poort — pas aan als jouw device anders heet
-ser = serial.Serial('/dev/ttyUSB0', baudrate=250000)
+try:
+    print("Openen van seriële poort...")
+    ser = serial.Serial('/dev/ttyUSB0', baudrate=250000)
+    print(f"Seriële poort geopend: {ser.name}")
+except Exception as e:
+    print(f"Fout bij openen seriële poort: {e}")
+    exit(1)
 
-# DMX frame: kanaal 1 op 128, rest op 0
 dmx_frame = bytearray([128] + [0] * 511)
 
 try:
-    print("DMX output gestart. Druk Ctrl+C om te stoppen.")
+    print("Start DMX output. Ctrl+C om te stoppen.")
+    frame_count = 0
     while True:
-        # DMX break + MAB
-        ser.break_condition = True
-        time.sleep(0.0001)  # 100 µs break
-        ser.break_condition = False
-        time.sleep(0.000012)  # 12 µs MAB
+        try:
+            ser.break_condition = True
+            time.sleep(0.0001)
+            ser.break_condition = False
+            time.sleep(0.000012)
 
-        # Stuur frame
-        ser.write(dmx_frame)
+            bytes_written = ser.write(dmx_frame)
+            frame_count += 1
+            if frame_count % 10 == 0:
+                print(f"{frame_count} frames verzonden, laatste write: {bytes_written} bytes")
 
-        # Wacht ~25 ms = 40 fps
-        time.sleep(0.025)
+            time.sleep(0.025)
+        except Exception as e:
+            print(f"Fout tijdens DMX frame versturen: {e}")
+            break
 
 except KeyboardInterrupt:
-    print("DMX output gestopt.")
+    print("\nDMX output gestopt door gebruiker.")
+
+finally:
+    print("Sluit seriële poort...")
     ser.close()

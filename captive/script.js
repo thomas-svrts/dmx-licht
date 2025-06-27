@@ -11,13 +11,16 @@ function sendDMX() {
   const g = parseInt(hexColor.substr(3, 2), 16);
   const b = parseInt(hexColor.substr(5, 2), 16);
 
-  const baseChannel = 1;
   const payload = [
-    { channel: baseChannel, value: brightness }
-    { channel: baseChannel + 1, value: r },
-    { channel: baseChannel + 2, value: g },
-    { channel: baseChannel + 3, value: b },
-  ];
+  { channel: 1, value: brightness }, // master dimmer
+  { channel: 2, value: r },
+  { channel: 3, value: g },
+  { channel: 4, value: b }
+  // kanaal 5 amber optioneel
+  // kanaal 6 strobe optioneel
+  // kanaal 7 macro optioneel
+  // kanaal 8 macro speed optioneel
+];
 
   // Toon de verzonden payload
   let debugOutput = "📤 Verzonden payload:\n" + JSON.stringify(payload, null, 2) + "\n\n";

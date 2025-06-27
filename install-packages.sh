@@ -141,16 +141,3 @@ sudo systemctl restart lighttpd
 
 echo "✅ lighttpd is ingesteld met rewrite en captive trigger-bestanden."
 
-
-
-# Get rpi-source
-sudo wget https://raw.githubusercontent.com/notro/rpi-source/master/rpi-source -O /usr/bin/rpi-source
-
-# Make it executable
-sudo chmod +x /usr/bin/rpi-source
-
-# Tell the update mechanism that this is the latest version of the script
-/usr/bin/rpi-source -q --tag-update
-
-# Get the kernel files thingies.
-rpi-source

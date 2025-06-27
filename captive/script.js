@@ -13,10 +13,10 @@ function sendDMX() {
 
   const baseChannel = 1;
   const payload = [
-    { channel: baseChannel, value: r },
-    { channel: baseChannel + 1, value: g },
-    { channel: baseChannel + 2, value: b },
-    { channel: baseChannel + 3, value: brightness }
+    { channel: baseChannel, value: brightness }
+    { channel: baseChannel + 1, value: r },
+    { channel: baseChannel + 2, value: g },
+    { channel: baseChannel + 3, value: b },
   ];
 
   // Toon de verzonden payload

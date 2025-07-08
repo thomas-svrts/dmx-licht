@@ -36,6 +36,7 @@ function changeMacro(delta) {
   idx = Math.max(0, Math.min(macroOptions.length - 1, idx + delta));
   select.value = macroOptions[idx];
   updateUI();
+  saveSettingsToServer();
   sendDMX();
 }
 
@@ -60,7 +61,8 @@ function applyPreset(name) {
   document.getElementById("amber").value = preset.amber;
   document.getElementById("strobe").value = preset.strobe;
   document.getElementById("brightness").value = preset.brightness;
-
+  
+  saveSettingsToServer();
   sendDMX();
 }
 
@@ -105,6 +107,7 @@ function sendDMX() {
 // Event listeners
 document.getElementById("macroMode").addEventListener("change", () => {
   updateUI();
+  saveSettingsToServer();
   sendDMX();
 });
 
@@ -122,6 +125,7 @@ function loadSettingsFromServer() {
         }
       });
       updateUI();
+      saveSettingsToServer();
       sendDMX();
     })
     .catch(err => console.warn("Instellingen laden mislukt:", err));
@@ -145,4 +149,6 @@ function saveSettingsToServer() {
 
 
 // Init
+loadSettingsFromServer();
 updateUI();
+

@@ -106,6 +106,7 @@ sudo sed -i '/\$HTTP\["url"\] =~ "\^\/api\/"/,/}/d' /etc/lighttpd/lighttpd.conf
 sudo tee -a /etc/lighttpd/lighttpd.conf > /dev/null <<EOF
 url.rewrite = (
   "^/script.js$" => "\$0",
+  "^/logo.jpg$" => "\$0",
   "^/api/.*$" => "\$0",
   ".*" => "/index.html"
 )

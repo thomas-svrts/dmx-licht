@@ -138,6 +138,12 @@ sudo systemctl daemon-reexec
 sudo systemctl enable flask-dmx
 sudo systemctl restart flask-dmx
 
+echo "🧾 Flask systemd-service installeren..."
+sudo cp $SCRIPT_DIR/systemd/chiro-ap.service /etc/systemd/system/chiro-ap.service
+sudo systemctl daemon-reexec
+sudo systemctl enable chiro-ap
+sudo systemctl restart chiro-ap
+
 # Herstart services als het al draait
 sudo systemctl restart dnsmasq
 sudo systemctl enable lighttpd

@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Lichtknoppen – Chiro Heffen 🎛️</title>
+  <title>Welkom bij de Lichtshow van Chiro Heffen 🌈🎛️</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -18,7 +18,7 @@
       display: block;
       margin: auto;
     }
-    h1, h2 {
+    h1 {
       text-align: center;
     }
     label {
@@ -61,20 +61,20 @@
 </head>
 <body>
 
-  <img src="logo.jpg" alt="Chiro Heffen logo">
-  <h1>Welkom bij de Lichtknoppen van Chiro Heffen 🎛️</h1>
+  <img src="logo.png" alt="Chiro Heffen logo">
+  <h1>Welkom bij de Lichtshow van Chiro Heffen 🌈🎛️</h1>
 
-  <label for="brightness">🔆 Master dimmer</label>
+  <label for="brightness">🔆 Hoofddimmer</label>
   <input type="range" id="brightness" min="0" max="255" value="255">
 
   <div id="manual-controls">
     <label for="color">🎨 RGB-kleur</label>
     <input type="color" id="color" value="#ffffff">
 
-    <label for="amber">🧡 Amber</label>
+    <label for="amber">🪰 Amber</label>
     <input type="range" id="amber" min="0" max="255" value="0">
 
-    <label for="strobe">⚡ Strobe</label>
+    <label for="strobe">✨ Stroboscoop</label>
     <input type="range" id="strobe" min="0" max="255" value="0">
   </div>
 
@@ -83,7 +83,6 @@
     <button onclick="changeMacro(-1)">⬅️</button>
     <select id="macroMode">
       <option value="off">Handmatig</option>
-      <option value="static">Static color</option>
       <option value="macro1">Macro 1</option>
       <option value="macro2">Macro 2</option>
       <option value="macro3">Macro 3</option>
@@ -99,19 +98,16 @@
   </div>
 
   <div id="macro-channel-8" class="hidden">
-    <label id="macro8label" for="macroParam">Kanaal 8</label>
+    <label id="macro8label" for="macroParam">⏱️ Snelheid macro</label>
     <input type="range" id="macroParam" min="0" max="255" value="128">
   </div>
 
   <div class="center">
-    <h2>🎯 Extra presets</h2>
+    <h2>🎮 Snelkeuzes</h2>
     <button onclick="applyPreset('tl')">TL-licht</button>
     <button onclick="applyPreset('warmwit')">Warm wit</button>
     <button onclick="applyPreset('allesuit')">Alles uit</button>
   </div>
-
-  <h2>📬 Antwoord</h2>
-  <pre id="response"></pre>
 
   <script src="script.js"></script>
 </body>

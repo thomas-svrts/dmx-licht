@@ -1,6 +1,11 @@
 from flask import Flask, request, jsonify
 from ola.ClientWrapper import ClientWrapper
 import array
+import os
+import json
+
+SETTINGS_PATH = "/var/lib/chirolicht/settings.json"
+
 
 app = Flask(__name__)
 
@@ -38,6 +43,28 @@ def set_dmx_batch():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/api/settings', methods=['GET', 'POST'])
+def settings():
+    if request.method == 'GET':
+        if os.path.exists(SETTINGS_PATH):
+            with open(SETTINGS_PATH, 'r') as f:
+                try:
+                    return jsonify(json.load(f))
+                except Exception as e:
+                    return jsonify({"error": "Corrupt bestand", "detail": str(e)}), 500
+        else:
+            return jsonify({})  # Geen instellingen bewaard
+
+    if request.method == 'POST':
+        data = request.get_json(force=True)
+        try:
+            with open(SETTINGS_PATH, 'w') as f:
+                json.dump(data, f)
+            return jsonify({"status": "ok"})
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000)

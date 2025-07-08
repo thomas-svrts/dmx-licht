@@ -112,7 +112,10 @@ document.getElementById("macroMode").addEventListener("change", () => {
 });
 
 ["brightness", "color", "amber", "strobe", "macroParam"].forEach(id => {
-  document.getElementById(id).addEventListener("input", sendDMX);
+  document.getElementById(id).addEventListener("input", () => {
+    saveSettingsToServer();
+    sendDMX();
+  });
 });
 
 function loadSettingsFromServer() {

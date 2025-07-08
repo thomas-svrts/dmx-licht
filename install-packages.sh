@@ -108,6 +108,7 @@ sudo tee -a /etc/lighttpd/lighttpd.conf > /dev/null <<EOF
 url.rewrite = (
   "^/script.js$" => "\$0",
   "^/logo.jpg$" => "\$0",
+  "^/logo.png$" => "\$0",
   "^/api/.*$" => "\$0",
   ".*" => "/index.html"
 )

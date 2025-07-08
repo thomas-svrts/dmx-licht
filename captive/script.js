@@ -3,6 +3,9 @@ const macroOptions = [
   "macro5", "macro6", "macro7", "macro8", "macro9", "macro10"
 ];
 
+const settingsKeys = ["brightness", "color", "amber", "strobe", "macroMode", "macroParam"];
+
+
 function getMacroValue(selection) {
   switch (selection) {
     case "macro1": return 101;
@@ -108,6 +111,38 @@ document.getElementById("macroMode").addEventListener("change", () => {
 ["brightness", "color", "amber", "strobe", "macroParam"].forEach(id => {
   document.getElementById(id).addEventListener("input", sendDMX);
 });
+
+function loadSettingsFromServer() {
+  fetch("/api/settings")
+    .then(res => res.json())
+    .then(data => {
+      settingsKeys.forEach(id => {
+        if (data[id] !== undefined && document.getElementById(id)) {
+          document.getElementById(id).value = data[id];
+        }
+      });
+      updateUI();
+      sendDMX();
+    })
+    .catch(err => console.warn("Instellingen laden mislukt:", err));
+}
+
+function saveSettingsToServer() {
+  const data = {};
+  settingsKeys.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      data[id] = el.value;
+    }
+  });
+
+  fetch("/api/settings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  }).catch(err => console.warn("Instellingen opslaan mislukt:", err));
+}
+
 
 // Init
 updateUI();

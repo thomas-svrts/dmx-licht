@@ -2,65 +2,59 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
+  <title>DMX Controller - Chiro Heffen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DMX Controller</title>
   <style>
-    body { font-family: sans-serif; padding: 1rem; }   
-    label { display: block; margin-top: 1rem; }
-    input[type="range"] {
-      width: 100%;
-      max-width: 300px;
-      height: 32px; /* maakt de slider hoger = makkelijker bedienen */
-      -webkit-appearance: none; /* voor consistentie in Safari */
+    body { font-family: sans-serif; padding: 1rem; max-width: 500px; margin: auto; }
+    img { max-width: 120px; display: block; margin: auto; }
+    h1 { text-align: center; }
+    label { display: block; margin-top: 1rem; font-weight: bold; }
+    input[type="range"], input[type="color"], select {
+      width: 100%; max-width: 300px;
+      height: 32px;
     }
-
-input[type="range"]::-webkit-slider-thumb {
-  width: 32px;
-  height: 32px;
-  -webkit-appearance: none;
-  background: #444;
-  border-radius: 50%;
-}
-
-input[type="range"]::-moz-range-thumb {
-  width: 32px;
-  height: 32px;
-  background: #444;
-  border: none;
-  border-radius: 50%;
-}
+    .hidden { display: none; }
   </style>
 </head>
 <body>
-  <h1>DMX Kleur- en helderheidscontrole</h1>
 
-<label for="color">Kleur:</label>
-<input type="color" id="color" value="#ff0000"><br><br>
+  <img src="logo.jpg" alt="Chiro Heffen logo">
+  <h1>DMX Lichtbediening</h1>
 
-<label for="brightness">Helderheid:</label>
-<input type="range" id="brightness" min="0" max="255" value="255">
-<span id="brightnessValue">255</span><br><br>
+  <label for="brightness">Master dimmer</label>
+  <input type="range" id="brightness" min="0" max="255" value="255">
 
-<label for="amber">Amber:</label>
-<input type="range" id="amber" min="0" max="255" value="0">
-<span id="amberValue">0</span><br><br>
+  <div id="manual-controls">
+    <label for="color">RGB-kleur</label>
+    <input type="color" id="color" value="#ff0000">
 
-<label for="strobe">Strobe:</label>
-<input type="range" id="strobe" min="0" max="255" value="0">
-<span id="strobeValue">0</span><br><br>
+    <label for="amber">Amber</label>
+    <input type="range" id="amber" min="0" max="255" value="0">
 
-<label for="macro">Macro:</label>
-<input type="range" id="macro" min="0" max="255" value="0">
-<span id="macroValue">0</span><br><br>
+    <label for="strobe">Strobe</label>
+    <input type="range" id="strobe" min="0" max="255" value="0">
+  </div>
 
-<label for="macroSpeed">Macro snelheid:</label>
-<input type="range" id="macroSpeed" min="0" max="255" value="0">
-<span id="macroSpeedValue">0</span><br><br>
+  <label for="macroMode">Macro-modus</label>
+  <select id="macroMode">
+    <option value="off">Uit (handmatige RGB/Amber/Strobe)</option>
+    <option value="static">Static color mode</option>
+    <option value="macro1">Macro 1</option>
+    <option value="macro2">Macro 2</option>
+    <option value="macro3">Macro 3</option>
+    <option value="macro4">Macro 4</option>
+    <option value="macro5">Macro 5</option>
+    <option value="macro6">Macro 6</option>
+    <option value="macro7">Macro 7</option>
+    <option value="macro8">Macro 8</option>
+    <option value="macro9">Macro 9</option>
+    <option value="macro10">Macro 10</option>
+  </select>
 
-<button onclick="sendDMX()">Verstuur</button>
-
-
-  <a href="http://10.10.0.1:9090">test hier OLA</a>
+  <div id="macro-channel-8" class="hidden">
+    <label for="macroParam">Macro snelheid / kleurkeuze</label>
+    <input type="range" id="macroParam" min="0" max="255" value="128">
+  </div>
 
   <h2>Antwoord</h2>
   <pre id="response"></pre>

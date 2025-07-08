@@ -138,7 +138,7 @@ sudo systemctl daemon-reexec
 sudo systemctl enable flask-dmx
 sudo systemctl restart flask-dmx
 
-echo "🧾 Flask systemd-service installeren..."
+echo "🧾 Chiro AP als systemd-service installeren..."
 sudo cp $SCRIPT_DIR/systemd/chiro-ap.service /etc/systemd/system/chiro-ap.service
 sudo systemctl daemon-reexec
 sudo systemctl enable chiro-ap

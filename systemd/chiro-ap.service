@@ -1,0 +1,11 @@
+[Unit]
+Description=Start Chiro Licht AP via lnxrouter
+After=network.target
+
+[Service]
+ExecStart=/home/pi/dmx-licht/start-ap.sh
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

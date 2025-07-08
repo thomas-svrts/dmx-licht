@@ -2,61 +2,115 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>DMX Controller - Chiro Heffen</title>
+  <title>Lichtknoppen – Chiro Heffen 🎛️</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { font-family: sans-serif; padding: 1rem; max-width: 500px; margin: auto; }
-    img { max-width: 120px; display: block; margin: auto; }
-    h1 { text-align: center; }
-    label { display: block; margin-top: 1rem; font-weight: bold; }
+    body {
+      background: #111;
+      color: #eee;
+      font-family: sans-serif;
+      padding: 1rem;
+      max-width: 500px;
+      margin: auto;
+    }
+    img {
+      max-width: 120px;
+      display: block;
+      margin: auto;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
     input[type="range"], input[type="color"], select {
-      width: 100%; max-width: 300px;
-      height: 32px;
+      width: 100%;
+      max-width: 300px;
+      height: 36px;
+      margin-top: 0.3rem;
+    }
+    input[type="color"] {
+      padding: 0;
+      border: none;
+      background: none;
+    }
+    select {
+      background-color: #222;
+      color: #eee;
+      border: 1px solid #444;
+    }
+    button {
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem 0.25rem;
+      font-size: 1.1rem;
+      border-radius: 6px;
+    }
+    button:hover {
+      background-color: #444;
+      cursor: pointer;
     }
     .hidden { display: none; }
+    .center { text-align: center; }
   </style>
 </head>
 <body>
 
   <img src="logo.jpg" alt="Chiro Heffen logo">
-  <h1>DMX Lichtbediening</h1>
+  <h1>Welkom bij de Lichtknoppen van Chiro Heffen 🎛️</h1>
 
-  <label for="brightness">Master dimmer</label>
+  <label for="brightness">🔆 Master dimmer</label>
   <input type="range" id="brightness" min="0" max="255" value="255">
 
   <div id="manual-controls">
-    <label for="color">RGB-kleur</label>
-    <input type="color" id="color" value="#ff0000">
+    <label for="color">🎨 RGB-kleur</label>
+    <input type="color" id="color" value="#ffffff">
 
-    <label for="amber">Amber</label>
+    <label for="amber">🧡 Amber</label>
     <input type="range" id="amber" min="0" max="255" value="0">
 
-    <label for="strobe">Strobe</label>
+    <label for="strobe">⚡ Strobe</label>
     <input type="range" id="strobe" min="0" max="255" value="0">
   </div>
 
-  <label for="macroMode">Macro-modus</label>
-  <select id="macroMode">
-    <option value="off">Uit (handmatige RGB/Amber/Strobe)</option>
-    <option value="static">Static color mode</option>
-    <option value="macro1">Macro 1</option>
-    <option value="macro2">Macro 2</option>
-    <option value="macro3">Macro 3</option>
-    <option value="macro4">Macro 4</option>
-    <option value="macro5">Macro 5</option>
-    <option value="macro6">Macro 6</option>
-    <option value="macro7">Macro 7</option>
-    <option value="macro8">Macro 8</option>
-    <option value="macro9">Macro 9</option>
-    <option value="macro10">Macro 10</option>
-  </select>
+  <label>🎞️ Macro-modus</label>
+  <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
+    <button onclick="changeMacro(-1)">⬅️</button>
+    <select id="macroMode">
+      <option value="off">Handmatig</option>
+      <option value="static">Static color</option>
+      <option value="macro1">Macro 1</option>
+      <option value="macro2">Macro 2</option>
+      <option value="macro3">Macro 3</option>
+      <option value="macro4">Macro 4</option>
+      <option value="macro5">Macro 5</option>
+      <option value="macro6">Macro 6</option>
+      <option value="macro7">Macro 7</option>
+      <option value="macro8">Macro 8</option>
+      <option value="macro9">Macro 9</option>
+      <option value="macro10">Macro 10</option>
+    </select>
+    <button onclick="changeMacro(1)">➡️</button>
+  </div>
 
   <div id="macro-channel-8" class="hidden">
-    <label for="macroParam">Macro snelheid / kleurkeuze</label>
+    <label id="macro8label" for="macroParam">Kanaal 8</label>
     <input type="range" id="macroParam" min="0" max="255" value="128">
   </div>
 
-  <h2>Antwoord</h2>
+  <div class="center">
+    <h2>🎯 Extra presets</h2>
+    <button onclick="applyPreset('tl')">TL-licht</button>
+    <button onclick="applyPreset('warmwit')">Warm wit</button>
+    <button onclick="applyPreset('allesuit')">Alles uit</button>
+  </div>
+
+  <h2>📬 Antwoord</h2>
   <pre id="response"></pre>
 
   <script src="script.js"></script>

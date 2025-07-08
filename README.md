@@ -1,95 +1,96 @@
-# DMX lichtproject
-# 💡 Chiroheffen Licht – Raspberry Pi DMX Access Point
+# 🌈 DMX Lichtsturing — Chiro Heffen 🎛️
 
-Dit project maakt van een Raspberry Pi een zelfstandig Wi-Fi access point met captive portal. Gebruikers verbinden met het netwerk `chiroheffen-licht` en worden automatisch doorgestuurd naar een lokaal controlepaneel voor DMX-verlichting (bv. via een BeamZ USB-controller).
-
----
-
-## ⚙️ Hardwarevereisten
-
-- Raspberry Pi 4B (of 3B, Zero 2 W)
-- microSD-kaart met Raspberry Pi OS (32-bit of 64-bit)
-- Internetverbinding via **ethernet** (voor installatie)
-- BeamZ USB-DMX controller (siudi 9s )
-- Eventueel: voeding, behuizing, enz.
+Een gebruiksvriendelijke en functionele DMX-controller in eigen beheer, gemaakt voor het aansturen van onze lichtshow tijdens Chirowerkingen en evenementen.  
+Werkt via een Raspberry Pi in **captive portal modus** zonder internet.
 
 ---
 
-## 🧩 Setup-stappen
+## ✨ Functies
 
-### 1. Clone deze repository op je Raspberry Pi
+- 🎨 Live controle over RGB, amber en stroboscoop via sliders  
+- 🎞️ Tien voorgeprogrammeerde macro-effecten met pijltjes  
+- 💡 Snelle presets zoals TL-licht en warm wit  
+- 🔁 Instellingen worden **server-side opgeslagen** en hersteld bij herstart  
+- 💻 Webinterface met Chiro Heffen-stijl en nachtthema  
+- 🔌 Volledige OLA-integratie via Python backend  
+- 📡 Werkt als **standalone Wi-Fi access point** met captive portal (via `lnxrouter`)
+
+---
+
+## 🚀 Installatie op Raspberry Pi
+
+### 🔧 1. Repo klonen
 
 ```bash
 git clone https://github.com/thomas-svrts/dmx-licht.git
 cd dmx-licht
 ```
 
-### 2. Maak het installatiescript uitvoerbaar
+### 🧰 2. Alles installeren
 
 ```bash
-chmod +x install-packages.sh
+sudo ./install-packages.sh
 ```
 
-### 3. Voer de installatie uit
+Dit script:
+- Installeert alle vereisten (`ola`, `lighttpd`, `flask`, …)
+- Zet webinterface in `/var/www/html/`
+- Richt lighttpd correct in (proxy naar Flask API via `/api/`)
+- Installeert `lnxrouter` voor captive portal
+- Zet OLA-configuratie klaar
+
+### 📡 3. Captive portal starten
 
 ```bash
-./install-packages.sh
+sudo ./start-ap.sh
 ```
 
-Het script:
-- Installeert `hostapd` en `dnsmasq`
-- Kopieert configuratiebestanden uit de map `Setup/` naar het juiste systeempad
-- Activeert alles bij het opstarten
+Dit zet een access point op genaamd `Chiro-Heffen-Licht`, zonder internet, en stuurt alle DNS-verkeer naar de webinterface (portaalpagina).
+Dit wordt ook als een systemd service geinstalleerd.
 
-### 4. Herstart je Raspberry Pi
+---
 
-```bash
-sudo reboot
+## 🌐 Gebruik
+
+1. Verbind met het Wi-Fi netwerk `Chiro-Heffen-Licht` via je smartphone of tablet.
+2. De portaalpagina opent automatisch.
+3. Pas de verlichting live aan — alles wordt onmiddellijk verzonden.
+
+---
+
+## 🧠 Opslag instellingen
+
+Instellingen zoals helderheid, kleur, macro en snelheid worden opgeslagen op de Raspberry Pi in:
+
+```
+/var/lib/chirolicht/settings.json
 ```
 
----
-
-## 📶 Wat gebeurt er na reboot?
-
-- De Pi zendt een Wi-Fi-netwerk uit met SSID `chiroheffen-licht`
-- Toestellen die verbinden krijgen automatisch een IP-adres 10.10.0.x)
-- Al het netwerkverkeer wordt omgeleid naar de Pi zelf (`10.10.0.1`)
-- (Volgende stap:) de webinterface zal verschijnen
-
+Ze worden automatisch geladen bij herstart of verversen van de pagina.
 
 ---
 
-## 🔌 Status USB-DMX-integratie
+## ⚙️ Technisch overzicht
 
-Er is een tweede programma in ontwikkeling (`siudi_logger.c`) dat USB-verkeer met de BeamZ/DMXsoft-controller via `libusb` monitort en probeert na te bootsen:
+- **Frontend**: `frontend/index.html` + `script.js` (speels, mobile-friendly, zonder verstuur-knop)
+- **Backend**: `app.py` via Flask  
+  - `/api/dmx/batch`: stuurt waarden naar OLA  
+  - `/api/settings`: bewaart/herlaadt UI-configuratie
+- **DMX-uitgang**: via `OLA` met een Enttec Open DMX USB-dongle
+- **AP-mode**: via `lnxrouter`, captive portal zonder internet
 
-- ✅ Device wordt correct herkend (Vendor ID 0x6244, Product ID 0x0591)
-- ✅ Control transfers worden correct gestuurd en gelogd
-- ✅ Interface geclaimd en geconfigureerd
-- ❌ BULK transfers falen momenteel met timeout – DMX-verzending nog niet gelukt
-- 🛠 Er wordt verder onderzocht welke exacte init- of timingsequentie vereist is
-
-Voorlopige logoutput wordt bijgehouden in een aparte branch (`usb-debug`) met volledige tijdstempels per USB-transfer.
 
 ---
 
-## 🌐 Webinterface en backend
+## 📄 Extra
 
-De captive portal bevat een eenvoudige HTML/JS-webinterface waarmee gebruikers hun lichtinstellingen kunnen bepalen via sliders of kleurkiezers. De interface stuurt de waarden door naar een Flask-backend via een REST POST-request naar `/api/dmx`.
-
-De Flask-backend draait op poort 5000 maar wordt via `lighttpd` intern geproxied naar `/api` op poort 80 (via reverse proxy), zodat alles lokaal blijft zonder CORS-problemen.
-
-Elke inkomende DMX-request roept een shellscript aan (`dmx_set.sh`) dat uiteindelijk de DMX-uitgang aanstuurt (via `libusb` of een nog te kiezen backend).
-
-De backend wordt als systemd-service mee opgestart en automatisch geïnstalleerd via `install-packages.sh`.
+- Wil je nieuwe presets toevoegen? Pas `applyPreset(...)` aan in `script.js`.
+- Flask en Chiro-AP start op als een systemd-service.
+- Werkt ook zonder internetverbinding.
 
 ---
 
-## 🚧 Volgende stap
+## 📬 Contact
 
-De volgende stap is de communicatie met de DMX-controller volledig werkend krijgen:
-- De BULK-transfer debuggen
-- Alternatieven testen zoals `usbip` of virtuele dongle-emulatie
-- Eventueel fallback voorzien via OLA of pyserial
-
-📬 Contacteer Thomas of open een issue als je wil bijdragen.
+Gemaakt door en voor Chiro Heffen.  
+Vragen of uitbreidingen? Maak een issue aan of spreek Thomas aan 😉

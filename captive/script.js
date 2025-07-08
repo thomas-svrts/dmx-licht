@@ -1,3 +1,8 @@
+const macroOptions = [
+  "off", "static", "macro1", "macro2", "macro3",
+  "macro4", "macro5", "macro6", "macro7", "macro8", "macro9", "macro10"
+];
+
 function getMacroValue(selection) {
   switch (selection) {
     case "static": return 70;
@@ -15,10 +20,60 @@ function getMacroValue(selection) {
   }
 }
 
+function updateUI() {
+  const mode = document.getElementById("macroMode").value;
+  const macroVisible = mode !== "off";
+
+  document.getElementById("macro-channel-8").classList.toggle("hidden", !macroVisible);
+  document.getElementById("manual-controls").classList.toggle("hidden", macroVisible);
+
+  const label = document.getElementById("macro8label");
+  if (mode === "static") {
+    label.textContent = "🎨 Kleurkeuze (kanaal 8)";
+  } else if (mode.startsWith("macro")) {
+    label.textContent = "⏱️ Macro snelheid (kanaal 8)";
+  } else {
+    label.textContent = "Kanaal 8";
+  }
+}
+
+function changeMacro(delta) {
+  const select = document.getElementById("macroMode");
+  let idx = macroOptions.indexOf(select.value);
+  idx = Math.max(0, Math.min(macroOptions.length - 1, idx + delta));
+  select.value = macroOptions[idx];
+  updateUI();
+  sendDMX();
+}
+
+function applyPreset(name) {
+  const presets = {
+    tl: {
+      color: "#ffffff", amber: 0, strobe: 0, brightness: 255
+    },
+    warmwit: {
+      color: "#ffcc88", amber: 128, strobe: 0, brightness: 255
+    },
+    allesuit: {
+      color: "#000000", amber: 0, strobe: 0, brightness: 0
+    }
+  };
+
+  const preset = presets[name];
+  document.getElementById("macroMode").value = "off";
+  updateUI();
+
+  document.getElementById("color").value = preset.color;
+  document.getElementById("amber").value = preset.amber;
+  document.getElementById("strobe").value = preset.strobe;
+  document.getElementById("brightness").value = preset.brightness;
+
+  sendDMX();
+}
+
 function sendDMX() {
   const brightness = parseInt(document.getElementById("brightness").value);
   const mode = document.getElementById("macroMode").value;
-
   const payload = [{ channel: 1, value: brightness }];
 
   if (mode === "off") {
@@ -61,18 +116,15 @@ function sendDMX() {
     });
 }
 
-// Update UI op verandering van macro-mode
+// UI events
 document.getElementById("macroMode").addEventListener("change", () => {
-  const mode = document.getElementById("macroMode").value;
-  const macroVisible = mode !== "off";
-
-  document.getElementById("macro-channel-8").classList.toggle("hidden", !macroVisible);
-  document.getElementById("manual-controls").classList.toggle("hidden", macroVisible);
-
+  updateUI();
   sendDMX();
 });
 
-// Trigger live updates bij slider/input wijzigingen
 ["brightness", "color", "amber", "strobe", "macroParam"].forEach(id => {
   document.getElementById(id).addEventListener("input", sendDMX);
 });
+
+// Init UI
+updateUI();

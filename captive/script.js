@@ -1,11 +1,10 @@
 const macroOptions = [
-  "off", "static", "macro1", "macro2", "macro3",
-  "macro4", "macro5", "macro6", "macro7", "macro8", "macro9", "macro10"
+  "off", "macro1", "macro2", "macro3", "macro4",
+  "macro5", "macro6", "macro7", "macro8", "macro9", "macro10"
 ];
 
 function getMacroValue(selection) {
   switch (selection) {
-    case "static": return 70;
     case "macro1": return 101;
     case "macro2": return 110;
     case "macro3": return 120;
@@ -26,15 +25,6 @@ function updateUI() {
 
   document.getElementById("macro-channel-8").classList.toggle("hidden", !macroVisible);
   document.getElementById("manual-controls").classList.toggle("hidden", macroVisible);
-
-  const label = document.getElementById("macro8label");
-  if (mode === "static") {
-    label.textContent = "🎨 Kleurkeuze (kanaal 8)";
-  } else if (mode.startsWith("macro")) {
-    label.textContent = "⏱️ Macro snelheid (kanaal 8)";
-  } else {
-    label.textContent = "Kanaal 8";
-  }
 }
 
 function changeMacro(delta) {
@@ -106,17 +96,10 @@ function sendDMX() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
-  })
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("response").textContent = JSON.stringify(data, null, 2);
-    })
-    .catch(err => {
-      document.getElementById("response").textContent = "Error: " + err;
-    });
+  }).catch(err => console.error("Fout bij verzenden:", err));
 }
 
-// UI events
+// Event listeners
 document.getElementById("macroMode").addEventListener("change", () => {
   updateUI();
   sendDMX();
@@ -126,5 +109,5 @@ document.getElementById("macroMode").addEventListener("change", () => {
   document.getElementById(id).addEventListener("input", sendDMX);
 });
 
-// Init UI
+// Init
 updateUI();

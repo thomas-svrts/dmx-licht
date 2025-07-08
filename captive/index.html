@@ -61,28 +61,28 @@
 </head>
 <body>
 
-  <img src="logo.png" alt="Chiro Heffen logo">
+  <img src="logo.jpg" alt="Chiro Heffen logo">
   <h1>Welkom bij de Lichtshow van Chiro Heffen 🌈🎛️</h1>
 
-  <label for="brightness">🔆 Hoofddimmer</label>
+  <label for="brightness">🔆 Algemene helderheid</label>
   <input type="range" id="brightness" min="0" max="255" value="255">
 
   <div id="manual-controls">
-    <label for="color">🎨 RGB-kleur</label>
+    <label for="color">🎨 Kleur (RGB)</label>
     <input type="color" id="color" value="#ffffff">
 
-    <label for="amber">🪰 Amber</label>
+    <label for="amber">🧡 Amber bijmengen</label>
     <input type="range" id="amber" min="0" max="255" value="0">
 
-    <label for="strobe">✨ Stroboscoop</label>
+    <label for="strobe">⚡ Stroboscoop</label>
     <input type="range" id="strobe" min="0" max="255" value="0">
   </div>
 
-  <label>🎞️ Macro-modus</label>
+  <label>🎞️ Voorgeprogrammeerde modi</label>
   <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
     <button onclick="changeMacro(-1)">⬅️</button>
     <select id="macroMode">
-      <option value="off">Handmatig</option>
+      <option value="off">Handmatige controle</option>
       <option value="macro1">Macro 1</option>
       <option value="macro2">Macro 2</option>
       <option value="macro3">Macro 3</option>
@@ -98,12 +98,12 @@
   </div>
 
   <div id="macro-channel-8" class="hidden">
-    <label id="macro8label" for="macroParam">⏱️ Snelheid macro</label>
+    <label for="macroParam">⏱️ Snelheid van de macro</label>
     <input type="range" id="macroParam" min="0" max="255" value="128">
   </div>
 
   <div class="center">
-    <h2>🎮 Snelkeuzes</h2>
+    <h2>🎯 Snelle presets</h2>
     <button onclick="applyPreset('tl')">TL-licht</button>
     <button onclick="applyPreset('warmwit')">Warm wit</button>
     <button onclick="applyPreset('allesuit')">Alles uit</button>

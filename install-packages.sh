@@ -84,7 +84,8 @@ sudo chown -R www-data:www-data /var/www/html
 sudo chmod -R 755 /var/www/html
 echo "✅ Captive portal geïnstalleerd."
 
-
+sudo mkdir -p /var/lib/chirolicht/
+sudo chown pi:pi /var/lib/chirolicht/
 
 
 

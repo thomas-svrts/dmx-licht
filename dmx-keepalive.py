@@ -10,7 +10,7 @@ UNIVERSE = 0
 
 # Warm wit profiel
 DEFAULT_FRAME = array.array('B', [0] * 512)
-DEFAULT_FRAME[0] = 175  # kanaal 1: dimmer
+DEFAULT_FRAME[0] = 64  # kanaal 1: dimmer
 DEFAULT_FRAME[1] = 80   # rood
 DEFAULT_FRAME[2] = 60   # groen
 DEFAULT_FRAME[3] = 30   # blauw

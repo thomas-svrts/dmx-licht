@@ -146,6 +146,13 @@ sudo systemctl daemon-reexec
 sudo systemctl enable chiro-ap
 sudo systemctl restart chiro-ap
 
+echo "🧾 reset cron job als systemd-service installeren..."
+sudo cp $SCRIPT_DIR/systemd/dmx-keepalive.service /etc/systemd/system/dmx-keepalive.service
+sudo systemctl daemon-reexec
+sudo systemctl enable dmx-keepalive
+sudo systemctl restart dmx-keepalive
+
+
 # Herstart services als het al draait
 sudo systemctl restart dnsmasq
 sudo systemctl enable lighttpd

@@ -14,7 +14,7 @@ DEFAULT_FRAME[0] = 64  # kanaal 1: dimmer
 DEFAULT_FRAME[1] = 80   # rood
 DEFAULT_FRAME[2] = 60   # groen
 DEFAULT_FRAME[3] = 30   # blauw
-DEFAULT_FRAME[4] = 90   # amber
+DEFAULT_FRAME[4] = 64   # amber
 
 def should_send_fallback(settings):
     """Controleer of er geen actieve instellingen zijn."""

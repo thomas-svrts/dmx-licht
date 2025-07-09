@@ -146,7 +146,7 @@ sudo systemctl daemon-reexec
 sudo systemctl enable chiro-ap
 sudo systemctl restart chiro-ap
 
-echo "🧾 reset cron job als systemd-service installeren..."
+echo "🧾 keep alive als systemd-service installeren..."
 sudo cp $SCRIPT_DIR/systemd/dmx-keepalive.service /etc/systemd/system/dmx-keepalive.service
 sudo systemctl daemon-reexec
 sudo systemctl enable dmx-keepalive

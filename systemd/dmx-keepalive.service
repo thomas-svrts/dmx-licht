@@ -1,0 +1,11 @@
+[Unit]
+Description=DMX fallback sender (warm wit)
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/dmx-licht/dmx-keepalive.py
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

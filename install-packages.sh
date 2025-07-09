@@ -163,8 +163,8 @@ echo "✅ lighttpd is ingesteld met rewrite en captive trigger-bestanden."
 
 echo "🕓 Instellen van dagelijkse DMX-reset om 6u..."
 # Cronregel definiëren
-#CRONLINE='0 6 * * * echo "{}" | sudo tee /var/lib/chirolicht/settings.json > /dev/null'
-CRONLINE='* * * * * echo "{}" | sudo tee /var/lib/chirolicht/settings.json > /dev/null'  #als debug elke minuut reset
+CRONLINE='0 6 * * * echo "{}" | sudo tee /var/lib/chirolicht/settings.json > /dev/null'
+#CRONLINE='* * * * * echo "{}" | sudo tee /var/lib/chirolicht/settings.json > /dev/null'  #als debug elke minuut reset
 # Toevoegen aan huidige crontab van gebruiker pi (als hij er nog niet in zit)
 ( crontab -l 2>/dev/null | grep -v -F "$CRONLINE" ; echo "$CRONLINE" ) | crontab -
 

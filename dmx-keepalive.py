@@ -2,11 +2,14 @@
 import json
 import os
 import time
+import array
 from ola.ClientWrapper import ClientWrapper
 
 SETTINGS_PATH = "/var/lib/chirolicht/settings.json"
 UNIVERSE = 0
-DEFAULT_FRAME = [0] * 512
+
+# Warm wit profiel
+DEFAULT_FRAME = array.array('B', [0] * 512)
 DEFAULT_FRAME[0] = 175  # kanaal 1: dimmer
 DEFAULT_FRAME[1] = 80   # rood
 DEFAULT_FRAME[2] = 60   # groen
@@ -14,7 +17,7 @@ DEFAULT_FRAME[3] = 30   # blauw
 DEFAULT_FRAME[4] = 90   # amber
 
 def should_send_fallback(settings):
-    """Bepaal of er GEEN actieve instellingen zijn."""
+    """Controleer of er geen actieve instellingen zijn."""
     if not settings:
         return True
 
@@ -31,7 +34,7 @@ def should_send_fallback(settings):
 def send_dmx_frame(frame):
     wrapper = ClientWrapper()
     client = wrapper.Client()
-    client.SendDmx(UNIVERSE, bytes(frame), lambda _: wrapper.Stop())
+    client.SendDmx(UNIVERSE, frame, lambda _: wrapper.Stop())
     wrapper.Run()
 
 while True:

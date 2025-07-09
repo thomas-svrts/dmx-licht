@@ -48,6 +48,9 @@ function applyPreset(name) {
     warmwit: {
       color: "#ffcc88", amber: 128, strobe: 0, brightness: 255
     },
+    keepalive: {
+      color: "#503c1e", amber: 64, strobe: 0, brightness: 64
+    },
     allesuit: {
       color: "#000000", amber: 0, strobe: 0, brightness: 0
     }

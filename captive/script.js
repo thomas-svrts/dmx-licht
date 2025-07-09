@@ -128,8 +128,6 @@ function loadSettingsFromServer() {
         }
       });
       updateUI();
-      saveSettingsToServer();
-      sendDMX();
     })
     .catch(err => console.warn("Instellingen laden mislukt:", err));
 }

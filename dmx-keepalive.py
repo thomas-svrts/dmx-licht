@@ -21,7 +21,8 @@ def should_send_fallback(settings):
     if not settings:
         return True
 
-    keys = ['dimmer', 'red', 'green', 'blue', 'amber', 'strobo', 'macro', 'speed']
+    keys = ["brightness", "color", "amber", "strobe", "macroMode", "macroParam"]
+
     for key in keys:
         try:
             val = int(settings.get(key, 0))

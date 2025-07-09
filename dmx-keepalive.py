@@ -31,7 +31,7 @@ def should_send_fallback(settings):
 def send_dmx_frame(frame):
     wrapper = ClientWrapper()
     client = wrapper.Client()
-    client.SendDmx(UNIVERSE, bytearray(frame), lambda _: wrapper.Stop())
+    client.SendDmx(UNIVERSE, frame, lambda _: wrapper.Stop())
     wrapper.Run()
 
 while True:

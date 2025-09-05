@@ -70,11 +70,22 @@ echo "🌐 Configureren van dnsmasq voor captive portal..."
 
 # Zorg dat basisconfig leeg/veilig is
 sudo rm -f /etc/dnsmasq.conf
-echo "interface=wlan0" | sudo tee /etc/dnsmasq.conf > /dev/null
-echo "dhcp-range=10.10.0.10,10.10.0.50,12h" | sudo tee -a /etc/dnsmasq.conf > /dev/null
-echo "address=/#/10.10.0.1" | sudo tee -a /etc/dnsmasq.conf > /dev/null
+sudo tee /etc/dnsmasq.conf > /dev/null <<'EOF'
+interface=wlan0
+bind-interfaces
+no-resolv
 
+# DHCP voor captive clients
+dhcp-range=10.10.0.10,10.10.0.50,12h
+dhcp-option=option:router,10.10.0.1
+dhcp-option=option:dns-server,10.10.0.1
 
+# (Optioneel, helpt sommige clients sneller popuppen via RFC 7710)
+# dhcp-option=114,http://10.10.0.1/
+
+# Belangrijk: álle domeinen naar de portal
+address=/#/10.10.0.1
+EOF
 
 
 
@@ -155,7 +166,7 @@ sudo systemctl restart dmx-keepalive
 
 
 # Herstart services als het al draait
-sudo systemcrl enable dnsmasq
+sudo systemctl enable dnsmasq
 sudo systemctl restart dnsmasq
 sudo systemctl enable lighttpd
 sudo systemctl restart lighttpd

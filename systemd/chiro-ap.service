@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 ExecStart=/home/pi/dmx-licht/start-ap.sh
-ExecStartPost=/bin/sleep 2
+ExecStartPost=/bin/sleep 10
 ExecStartPost=/bin/systemctl restart dnsmasq
 Restart=always
 

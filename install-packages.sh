@@ -21,7 +21,7 @@ curl http://apt.openlighting.org/ola.gpg | sudo apt-key add -
 
 echo "📦 Installing required packages..."
 sudo apt update
-sudo apt install -y git hostapd iptables haveged lighttpd gh python3-pip ola ola-python
+sudo apt install -y git hostapd iptables haveged lighttpd dnsmasq gh python3-pip ola ola-python
 pip3 install Flask flask-cors
 
 sudo lighttpd-enable-mod proxy

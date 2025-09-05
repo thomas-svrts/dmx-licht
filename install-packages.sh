@@ -155,6 +155,7 @@ sudo systemctl restart dmx-keepalive
 
 
 # Herstart services als het al draait
+sudo systemcrl enable dnsmasq
 sudo systemctl restart dnsmasq
 sudo systemctl enable lighttpd
 sudo systemctl restart lighttpd

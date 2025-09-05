@@ -7,8 +7,6 @@ sudo lnxrouter \
   --ap wlan0 Chiro-Heffen-Licht \
   -g 10.10.0.1 \
   -n \
-  --catch-dns \
-  --dns-nocache \
   --isolate-clients \
   --hostname chiro-ap \
   --tp 80

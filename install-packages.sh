@@ -71,8 +71,9 @@ echo "🌐 Configureren van dnsmasq voor captive portal..."
 # Zorg dat basisconfig leeg/veilig is
 sudo rm -f /etc/dnsmasq.conf
 sudo tee /etc/dnsmasq.conf > /dev/null <<'EOF'
+except-interface=lo
 interface=wlan0
-bind-interfaces
+bind-dynamic
 no-resolv
 
 # DHCP voor captive clients
